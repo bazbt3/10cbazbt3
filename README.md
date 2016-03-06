@@ -4,19 +4,19 @@ A Python 3 application for 10Centuries.org (aka 10Cv4 - the 4th iteration of the
 ## What is this?
 I am in the process of creating an application to interact with the social, blogging and podcasting site [10Centuries.org](http://10centuries.org).  It's very early days.
 
-## Why?
-Because 10Centuries' creator, Jason Irwin (aka @matigo) has made it relatively easy by publishing [the API docs](https://docs.10centuries.org/) early in the evolution of the site.  Though the documentation is incomplete, nay in some instances still evolving, for anyone with programming and/or bash shell script experience it's fairly straightforward getting stuff working.  Working *correctly* though is another matter entirely...
+## Why did I do this?
+Because 10Centuries' creator, Jason Irwin (aka @matigo) made it relatively easy by publishing [the API docs](https://docs.10centuries.org/) early in the evolution of the site.  Though the documentation is incomplete (the site is still evolving!) for anyone with programming and/or bash shell script experience it's fairly straightforward to get stuff working.  Working *correctly* though is another matter entirely...
 
-## How?
+## How does *this* work?
 
 ### Repo structure:
-The most important things to look at here are:
+Firstly, the most important things to look at here are:
 
 * This README file,
-* The [Documentation](/docs/README.md)
-* Indside the [10cbazbt3 **code** folder.](/10cbazbt3/)
+* The [Documentation](/docs/README.md) - a work in progress.
+* Indside the [10cbazbt3 code folder](/10cbazbt3/) - nothing there just yet.
 
-### To get this to work you'll need:
+### You'll need:
 1. Python 3 - this won't work with Python 2.
 1. A 10Cv4 account.  Though the site is out of its limited beta it's currently running on an invite-only basis.
 1. To create a Developer Client Key, simply head to your personal admin page and [create a new application.](https://admin.10centuries.org/apps/)  The Client Key appears near the botton of the screen, and is used in the next step.
