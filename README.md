@@ -4,7 +4,7 @@
 A Python 3 application to interact with the social, blogging and podcasting site [10Centuries.org](http://10centuries.org), aka 10Cv4 - the 4th iteration of the platform.  My work doesn't even properly cover the basics, but it's moving nicely.
 
 ## Why did I do this?
-Because 10Centuries' creator, Jason Irwin (aka @matigo) made it relatively easy by publishing [the API docs](https://docs.10centuries.org/) early in the evolution of the site.  Though the documentation is incomplete (the site is still evolving!) for anyone with programming and/or bash shell script experience it's fairly straightforward to get stuff working.  Working *correctly* though is another matter entirely...
+10Centuries creator, Jason Irwin (aka @matigo), made it relatively easy by publishing [the API docs](https://docs.10centuries.org/) early in the evolution of the site.  Though the documentation is incomplete (the site is still evolving!) for anyone with programming and/or bash shell script experience it's fairly straightforward to get stuff working.  Working *correctly* though is another matter entirely...
 
 ## What's needed to make this work?
 
