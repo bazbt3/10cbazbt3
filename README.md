@@ -24,7 +24,7 @@ Firstly, the most important things to look at here are:
 1. The data returned from the server, which contains a unique 'access token' (which must be used instead of username and password.)  It's important to note that this token is usable until one logs out from the application, at which point it must be re-authorised.  The Client Key should remain valid but I'm not about to test this until I've got the bugs out of my baby-steps code!
 
 ### Security:
-Taking the developer rules seriously I was able to create a bash shell script to take the access token out of the main script and into a seperate file, one read when authorisation is necessary - which it is for pretty much every interaction with the 10Cv4 API.  (Pulling posts from the Global post feed is one notable example of a request for whichauthorisation isn't necessary.)
+Taking the developer rules seriously I was able to create a bash shell script to take the access token out of the main script and into a seperate file, one read when authorisation is necessary - which it is for pretty much every interaction with the 10Cv4 API.  (Pulling posts from the Global post feed is one notable example of a request for which authorisation isn't necessary.)
 
 I mention security here because right now I haven't been able to code any into my Python 3 application.  I mean that I've authorised, authenticated, I'm able to post and reply with it, to post to my blog with it, to get mentions from the server with it, to interrogate the API about my account detals with it; **yet I'm unable to seperate the access token from within the code.**  This is my inexperience showing; I'm *very* new to Python.
 
