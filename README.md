@@ -32,4 +32,4 @@ I mention security here because right now I haven't been able to code any into m
 As far as I understand it, the authentication method is about to change anyway, from X-Auth to OAuth 2.0.  I've been led to believe I won't need to change anything, so I'm just happy to be here and *evolving*, right now!
 
 ## Failure:
-In a nutshell, I'm so-far unable to 'translate' the responses returned from the API into anything I can use.  Is it text, is it JSON, is it human-readable?  It is all 3 but I'm a noob.  It's only a matter of time before it clicks into place, right?
+In a nutshell, I'm so-far unable to 'translate' the responses returned from the API into anything I can use **within the application.**  Is it text, is it JSON, is it human-readable?  It is all 3 - of course - but I'm a noob.  It's only a matter of time before it clicks into place though, right?
