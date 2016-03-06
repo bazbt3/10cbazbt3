@@ -7,4 +7,9 @@
 * What there is, it's a noob's first attempt at proper Python *and* interacting with an API.  Please tread carefully.
 
 ## Initial history:
-### 2016-03-06: First upload.
+### 2016-03-06: First upload, with the following features:
+* Post a Blurb - a social post,
+* Post a blog entry,
+* Collect the most recent 50 mentions,
+* Reply to a specific post - the post number is needed at this stage,
+* Check what sites a user 'owns'.
