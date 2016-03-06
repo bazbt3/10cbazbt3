@@ -1,3 +1,5 @@
+*Document is a little verbose.*
+
 ## What is '10cbazbt3'?
 A Python 3 application to interact with the social, blogging and podcasting site [10Centuries.org](http://10centuries.org), aka 10Cv4 - the 4th iteration of the platform.  My work doesn't even properly cover the basics, but it's moving nicely.
 
