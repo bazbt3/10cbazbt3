@@ -8,6 +8,14 @@ I am in the process of creating an application to interact with the social, blog
 Because 10Centuries' creator, Jason Irwin (aka @matigo) has made it relatively easy by publishing [the API docs](https://docs.10centuries.org/) early in the evolution of the site.  Though the documentation is incomplete, nay in some instances still evolving, for anyone with programming and/or bash shell script experience it's fairly straightforward getting stuff working.  Working *correctly* though is another matter entirely...
 
 ## How?
+
+### Repo structure:
+The most important things to look at here are:
+
+* This README file,
+* The [Documentation](/docs/README.md)
+* Indside the [10cbazbt3 **code** folder.](/10cbazbt3/)
+
 ### To get this to work you'll need:
 1. Python 3 - this won't work with Python 2.
 1. A 10Cv4 account.  Though the site is out of its limited beta it's currently running on an invite-only basis.
