@@ -7,13 +7,13 @@ I am in the process of creating an application to interact with the social, blog
 ## Why did I do this?
 Because 10Centuries' creator, Jason Irwin (aka @matigo) made it relatively easy by publishing [the API docs](https://docs.10centuries.org/) early in the evolution of the site.  Though the documentation is incomplete (the site is still evolving!) for anyone with programming and/or bash shell script experience it's fairly straightforward to get stuff working.  Working *correctly* though is another matter entirely...
 
-## How does *this* work?
+## What's needed to make this work?
 
 ### Repo structure:
 Firstly, the most important things to look at here are:
 
 * This README file,
-* The [Documentation](/docs/README.md) - a work in progress.
+* The [Documentation](/docs/README.md) - a work about-to-be in progress.
 * Indside the [10cbazbt3 code folder](/10cbazbt3/) - nothing there just yet.
 
 ### You'll need:
