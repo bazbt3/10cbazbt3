@@ -1,29 +1,51 @@
 # 10cbazbt3 - a menu to interact with the 10Centuries.org social network.
 # (c) Barrie Turner, 2016-03-04 onwards.
-# Routines based on the curl examples at https://docs.10centuries.org
-# 
-# Prerequisites:
-#   Python 3 (this simply will not work in Python 2; not even the menu!)
-#   Created & tested only on a Raspberry Pi 2 B running Raspbian Linux.
+# If you want a version number, you can have 2016-03-08 or 0.11.
 
-# Setup:
-# Requests is an http library for humans:
+# Routines based on the curl examples at https://docs.10centuries.org
+
+# Prerequisites:
+# Python 3 (this simply will not work in Python 2; not even the menu!)
+
+# Important:
+# Created & tested only on a Raspberry Pi 2 B running Raspbian Linux,
+# Created using Python 3 (IDLE).
+# All this application's data files are currently stored in '/home/pi/10cv4/' on my machine,
+# To make *your* application work please check each subroutine and replace the folder location as necessary!
+# THIS APPLICATION DOESN'T YET PARSE (JSON), SO API RESPONSES ARE *ALMOST* HUMAN-READABLE!
+
+# SETUP:
+
+# Load an http library:
 import requests
-# Time-related stuff.  This may be better in the post() subroutine!
+# Load time-related stuff:
 from time import strftime
 
-# *** The 'Authorization' token should be read from an external file. ***
-# *** HAVING IT HARDCODED IS INSECURE, liable to invoke Thor's wrath! ***
-# This global variable is at least a first step towards sharing the code.
-# It MUST be of the form:
-# "headers = {'Authorization': '[YOUR 10C API AUTH TOKEN]', 'Content-Type': 'application/x-www-form-urlencoded'}"
-# (But without my enclosing double quotes, without square braces.)
-# TOKENS REDACTED BELOW!
-headers = {'Authorization': '******************************************************', 'Content-Type': 'application/x-www-form-urlencoded'}
-# This header contains only the token - used when only an auth header is required:
-headertokenonly = {'Authorization': '******************************************************'}
+# AUTHENTICATION:
 
-# Define the Blurb (social post) subroutine:
+# Define 'my_client_guid' GUID variable - read from /home/pi/10cv4/10cv4guid.txt,
+# ***The text file MUST exist and contain one line - ONLY the text of the Client Key,***
+# It's obtained from your Admin page's https://admin.10centuries.org/apps/
+# And must be added by hand!
+myclientguidfile = open("/home/pi/10cv4/10cv4guid.txt", "r")
+my_client_guid = myclientguidfile.read()
+
+# Define 'headertokenonly' global authentication variable - read from /home/pi/10cv4/authtoken.txt,
+# ***The text file MUST exist and contain one line, ONLY the text of the auth token,***
+# It's returned from the API at the end of the 'Login' subroutine,
+# And must be added by hand!
+# This header contains only the token - used when only an auth header is required,
+authtokenonlyfile = open("/home/pi/10cv4/authtoken.txt", "r")
+authtokenonly = authtokenonlyfile.read()
+headertokenonly = {'Authorization': authtokenonly}
+
+# Define 'headers' global variable - uses 'authtokenonly' from above,
+# This header is used throughout the application:
+headers = {'Authorization': authtokenonly, 'Content-Type': 'application/x-www-form-urlencoded'}
+
+# SUBROUTINES:
+
+# Define the 'Blurb' (social post) subroutine:
 def blurb():
     # Input some text:
     posttext = input("Write some text: ")
@@ -46,7 +68,7 @@ def blurb():
     print("Done - see also serverresponse.txt.")
     print ("")
     
-# Define the Post (blog post) subroutine:
+# Define the 'Post' (blog post) subroutine:
 def post():
     # Input blog post data:
     posttitle = input("Write a blog post title: ")
@@ -56,7 +78,7 @@ def post():
     # (I decided to not save blog post text to a file for blog posts.)
     # Uses the global header & creates the data to be passed to the url:
     url = 'https://api.10centuries.org/content'
-    # Reference: @bazbt3 channel id = 6, site id = 8.
+    # IMPORTANT: @bazbt3's channel id = 6, site id = 8.  SUBSTITUTE WITH *YOUR* CHANNEL_ID!
     data = {'title': posttitle, 'content': posttext, 'channel_id': '6', 'send_blurb': 'Y', 'pubdts': postdatetime}
     response = requests.post(url, headers=headers, data=data)
     # Saves the server's response to 'serverresponse.txt':
@@ -70,9 +92,9 @@ def post():
     print("Done - see also serverresponse.txt.")
     print ("")
 
-# Define the Mentions subroutine:
+# Define the 'Mentions' subroutine:
 def mentions():
-    # How many mentions posts to retrieve (doesn't currently work!)
+    # How many mentions posts to retrieve? ***(Doesn't currently work!)***
     mentionscount = input("How many mentions: ")
     mentionscount = str(mentionscount)
     # Uses the global header & creates the data to be passed to the url:
@@ -90,7 +112,7 @@ def mentions():
     print("Done - see servermentionsresponse.txt.")
     print ("")
 
-# Define the Reply subroutine:
+# Define the 'Reply' subroutine:
 def reply():
     # Input a reply-to post number:
     replytoid = input("Post number to reply to: ")
@@ -115,7 +137,9 @@ def reply():
     print("Done - see serverresponse.txt.")
     print ("")
 
-# Define the Sites query subroutine:
+# Admin subroutines start here:
+
+# Define the 'Sites' query subroutine:
 def sites():
     # Uses the global header & creates the data to be passed to the url:
     url = 'https://api.10centuries.org/users/sites'
@@ -131,7 +155,38 @@ def sites():
     print("Done - see serverresponse.txt.")
     print ("")
 
-# The menu starts here.  It has no input validation outside valid options:
+# Define the 'Login' subroutine:
+# ***DO NOT USE - UNTESTED UNTIL LOGOUT IS IMPLEMENTED!***
+def login():
+    # Input account name:
+    my_acctname = input("Username (email): ")
+    # Input account password:
+    my_acctpass = input("Password: ")
+    # The login URL:
+    url = 'https://api.10centuries.org/auth/login'
+    loginheaders = {'Content-Type': 'application/x-www-form-urlencoded'}
+    data = {'client_guid': my_client_guid, 'acctname': my_acctname, 'acctpass': my_acctpass}
+    response = requests.post(url, headers=headers, data=data)
+    # Saves the server's response to 'loginresponse.txt':
+    file = open("/home/pi/10cv4/loginresponse.txt", "w")
+    file.write(response.text)
+    file.close()
+    # Displays the server's response onscreen - *all* of it:
+    # Will be made better when I can extract data from the server responses.
+    print(response.text)
+    print("")
+    print("Done - see loginresponse.txt.")
+    print ("")
+
+# Define the 'Logout' subroutine:
+# ***DO NOT USE - ONLY JUST STARTED, WILL NOT WORK!!!***
+def logout():
+    url = 'https://api.10centuries.org/auth/logout'
+    response = requests.post(url, headers=headertokenonly, data=data)
+
+# MENU:
+
+# The menu has no input validation outside valid options:
 print("10cbazbt3 menu:")
 print("  b = Blurb (social post)")
 print("  p = Post (blog post)")
@@ -139,13 +194,17 @@ print("  m = Mentions")
 print("  r = Reply")
 print("")
 print("Admin:")
-print("  s = Sites by user")
+print("  s =      Sites by user")
 print("")
-print("  x = eXit")
+print("  exit = Exit")
+print("")
+print("DISABLED:")
+print("  Login =  Login (deletes current auth token!)")
+print("  Logout = Logout (deletes current auth token!)")
 print("")
 
 choice = "Little Bobby Tables"
-while (choice != 'x'):
+while (choice != 'exit'):
     choice = input("Choice? ")
     print("The chosen option is:" + choice)
     print("")
@@ -155,10 +214,15 @@ while (choice != 'x'):
         post()
     elif choice == 'm':
         mentions()
-    elif choice == 's':
-        sites()
     elif choice == 'r':
         reply()
+    elif choice == 's':
+        sites()
+# LOGIN, LOGOUT DISABLED UNTIL TESTED!
+#    elif choice == 'Login':
+#        login()
+#    elif choice == 'Logout':
+#        logout()
 
 # The menu exits here:
-print("You chose X: Goodbye!")
+print("You chose 'exit': Goodbye!")
