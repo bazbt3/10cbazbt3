@@ -9,6 +9,9 @@
 ## Initial history:
 (Most recent on top.)
 
+### 2016-03-09: Third upload:
+* **Almost-completed:** login & logout (initially REQUIRES manual edit of authtoken.txt.)
+
 ### 2016-03-08: Second upload, with the following features in addition to the preceding:
 * Authentication/authorisation IDs/tokens moved out of the application into text files,
 * **Started:** login & logout (will initially require manual 'save' of data returned from the API.)
