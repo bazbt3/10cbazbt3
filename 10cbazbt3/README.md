@@ -7,6 +7,11 @@
 * What there is, it's a noob's first attempt at proper Python *and* interacting with an API.  Please tread carefully.
 
 ## Initial history:
+(Most recent on top.)
+
+### 2016-03-08: Second upload, with the following features in addition to the preceding:
+* Authentication/authorisation IDs/tokens moved out of the application into text files,
+* **Started:** login & logout (will initially require manual 'save' of data returned from the API.)
 
 ### 2016-03-06: First upload, with the following features:
 * Post a Blurb - a social post,
@@ -14,7 +19,3 @@
 * Collect the most recent 50 mentions, though it's the 'raw' response at this stage,
 * Reply to a specific post - the post number is needed at this stage,
 * Check what sites a user 'owns'.
-
-### 2016-03-08: Second upload, with the following features in addition to the above:
-* Authentication/authorisation IDs/tokens moved out of the application into text files,
-* **Started:** login & logout (will initially require manual 'save' of data returned from the API.)
