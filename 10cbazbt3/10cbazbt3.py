@@ -1,6 +1,6 @@
 # 10cbazbt3 - a menu to interact with the 10Centuries.org social network.
 # (c) Barrie Turner, 2016-03-04 onwards.
-# If you want a version number, you can have 2016-03-08 or 0.11.
+# If you want a version number, you can have 2016-03-09(SillyO'Clock) or 0.12.
 
 # Routines based on the curl examples at https://docs.10centuries.org
 
@@ -33,7 +33,6 @@ my_client_guid = myclientguidfile.read()
 # Define 'headertokenonly' global authentication variable - read from /home/pi/10cv4/authtoken.txt,
 # ***The text file MUST exist and contain one line, ONLY the text of the auth token,***
 # It's returned from the API at the end of the 'Login' subroutine,
-# And must be added by hand!
 # This header contains only the token - used when only an auth header is required,
 authtokenonlyfile = open("/home/pi/10cv4/authtoken.txt", "r")
 authtokenonly = authtokenonlyfile.read()
@@ -156,7 +155,6 @@ def sites():
     print ("")
 
 # Define the 'Login' subroutine:
-# ***DO NOT USE - UNTESTED UNTIL LOGOUT IS IMPLEMENTED!***
 def login():
     # Input account name:
     my_acctname = input("Username (email): ")
@@ -166,7 +164,7 @@ def login():
     url = 'https://api.10centuries.org/auth/login'
     loginheaders = {'Content-Type': 'application/x-www-form-urlencoded'}
     data = {'client_guid': my_client_guid, 'acctname': my_acctname, 'acctpass': my_acctpass}
-    response = requests.post(url, headers=headers, data=data)
+    response = requests.post(url, headers=loginheaders, data=data)
     # Saves the server's response to 'loginresponse.txt':
     file = open("/home/pi/10cv4/loginresponse.txt", "w")
     file.write(response.text)
@@ -175,14 +173,26 @@ def login():
     # Will be made better when I can extract data from the server responses.
     print(response.text)
     print("")
-    print("Done - see loginresponse.txt.")
+    print("Done - at this stage manually editing loginresponse.txt to remove all-but the Authetication Token is now NECESSARY!")
+    print("")
+    print("Please exit.")
     print ("")
 
 # Define the 'Logout' subroutine:
-# ***DO NOT USE - ONLY JUST STARTED, WILL NOT WORK!!!***
 def logout():
+    # The logout URL:
     url = 'https://api.10centuries.org/auth/logout'
-    response = requests.post(url, headers=headertokenonly, data=data)
+    response = requests.post(url, headers=headertokenonly)
+    # Saves the server's response to 'logoutresponse.txt':
+    file = open("/home/pi/10cv4/logoutresponse.txt", "w")
+    file.write(response.text)
+    file.close()
+    # Displays the server's response onscreen - *all* of it:
+    # Will be made better when I can extract data from the server responses.
+    print(response.text)
+    print("")
+    print("Done - see logoutresponse.txt.")
+    print ("")
 
 # MENU:
 
@@ -193,12 +203,10 @@ print("  p = Post (blog post)")
 print("  m = Mentions")
 print("  r = Reply")
 print("")
-print("Admin:")
-print("  s =      Sites by user")
-print("")
 print("  exit = Exit")
 print("")
-print("DISABLED:")
+print("Admin:")
+print("  sites =  Sites owned by user")
 print("  Login =  Login (deletes current auth token!)")
 print("  Logout = Logout (deletes current auth token!)")
 print("")
@@ -218,11 +226,10 @@ while (choice != 'exit'):
         reply()
     elif choice == 's':
         sites()
-# LOGIN, LOGOUT DISABLED UNTIL TESTED!
-#    elif choice == 'Login':
-#        login()
-#    elif choice == 'Logout':
-#        logout()
+    elif choice == 'Login':
+        login()
+    elif choice == 'Logout':
+        logout()
 
 # The menu exits here:
 print("You chose 'exit': Goodbye!")
