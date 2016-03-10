@@ -21,28 +21,7 @@ import requests
 # Load time-related stuff:
 from time import strftime
 
-# AUTHENTICATION:
-
-# Define 'my_client_guid' GUID variable - read from /home/pi/10cv4/10cv4guid.txt,
-# ***The text file MUST exist and contain one line - ONLY the text of the Client Key,***
-# It's obtained from your Admin page's https://admin.10centuries.org/apps/
-# And must be added by hand!
-myclientguidfile = open("/home/pi/10cv4/10cv4guid.txt", "r")
-my_client_guid = myclientguidfile.read()
-
-# Define 'headertokenonly' global authentication variable - read from /home/pi/10cv4/authtoken.txt,
-# ***The text file MUST exist and contain one line, ONLY the text of the auth token,***
-# It's returned from the API at the end of the 'Login' subroutine,
-# This header contains only the token - used when only an auth header is required,
-authtokenonlyfile = open("/home/pi/10cv4/authtoken.txt", "r")
-authtokenonly = authtokenonlyfile.read()
-headertokenonly = {'Authorization': authtokenonly}
-
-# Define 'headers' global variable - uses 'authtokenonly' from above,
-# This header is used throughout the application:
-headers = {'Authorization': authtokenonly, 'Content-Type': 'application/x-www-form-urlencoded'}
-
-# SUBROUTINES:
+# DEFINE SUBROUTINES:
 
 # Define the 'Blurb' (social post) subroutine:
 def blurb():
@@ -138,21 +117,21 @@ def reply():
 
 # Admin subroutines start here:
 
-# Define the 'Sites' query subroutine:
-def sites():
-    # Uses the global header & creates the data to be passed to the url:
-    url = 'https://api.10centuries.org/users/sites'
-    response = requests.get(url, headers=headertokenonly)
-    # Saves the server's response to 'serverresponse.txt':
-    file = open("/home/pi/10cv4/serverresponse.txt", "w")
-    file.write(response.text)
-    file.close()
-    # Displays the server's response onscreen - *all* of it:
-    # Will be made better when I can extract data from the server responses.
-    print(response.text)
-    print("")
-    print("Done - see serverresponse.txt.")
-    print ("")
+#Define 'Authorisation' subroutine:
+def authorise():
+    # Define 'headertokenonly' and 'headers' as global variables, with actual values defined below:
+    global headertokenonly
+    global headers
+    # Define 'headertokenonly' global authentication variable - read from /home/pi/10cv4/authtoken.txt,
+    # ***The text file MUST exist and contain one line, ONLY the text of the auth token,***
+    # It's returned from the API at the end of the 'Login' subroutine,
+    # This header contains only the token - used when only an auth header is required,
+    authtokenonlyfile = open("/home/pi/10cv4/authtoken.txt", "r")
+    authtokenonly = authtokenonlyfile.read()
+    headertokenonly = {'Authorization': authtokenonly}    
+    # Define 'headers' global variable - uses 'authtokenonly' from above,
+    # This header is used throughout the application:
+    headers = {'Authorization': authtokenonly, 'Content-Type': 'application/x-www-form-urlencoded'}    
 
 # Define the 'Login' subroutine:
 def login():
@@ -173,9 +152,16 @@ def login():
     # Will be made better when I can extract data from the server responses.
     print(response.text)
     print("")
-    print("Done - at this stage manually editing loginresponse.txt to remove all-but the Authentication Token is now NECESSARY!")
+    # Have the *user* parse the Authentication Token and manually enter it, here:
+    print("Please copy the Authentication Token text line - between {} - from above and paste it into the line below:")
+    temptoken = input("Paste it here: ")
+    file = open("/home/pi/10cv4/authtoken.txt", "w")
+    file.write(temptoken)
+    file.close()
     print("")
-    print("Please exit.")
+    # Re-authorise now:
+    authorise()
+    print("Re-authorised (but please check!)")
     print("")
 
 # Define the 'Logout' subroutine:
@@ -193,6 +179,35 @@ def logout():
     print("")
     print("Done - see logoutresponse.txt.")
     print ("")
+
+# Define the 'Sites' query subroutine:
+def sites():
+    # Uses the global header & creates the data to be passed to the url:
+    url = 'https://api.10centuries.org/users/sites'
+    response = requests.get(url, headers=headertokenonly)
+    # Saves the server's response to 'serverresponse.txt':
+    file = open("/home/pi/10cv4/serverresponse.txt", "w")
+    file.write(response.text)
+    file.close()
+    # Displays the server's response onscreen - *all* of it:
+    # Will be made better when I can extract data from the server responses.
+    print(response.text)
+    print("")
+    print("Done - see serverresponse.txt.")
+    print ("")
+
+# MAIN ROUTINE STARTS:
+
+# AUTHENTICATION:
+
+# Define 'my_client_guid' GUID variable - read from /home/pi/10cv4/10cv4guid.txt,
+# ***The text file MUST exist and contain one line - ONLY the text of the Client Key,***
+# It's obtained from your Admin page's https://admin.10centuries.org/apps/
+# And must be added by hand!
+myclientguidfile = open("/home/pi/10cv4/10cv4guid.txt", "r")
+my_client_guid = myclientguidfile.read()
+# Use the Authentication Token (now handled by 'authorise' subroutine):
+authorise()
 
 # MENU:
 
@@ -224,7 +239,7 @@ while (choice != 'exit'):
         mentions()
     elif choice == 'r':
         reply()
-    elif choice == 's':
+    elif choice == 'sites':
         sites()
     elif choice == 'Login':
         login()
