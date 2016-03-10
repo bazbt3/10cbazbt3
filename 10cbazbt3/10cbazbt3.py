@@ -1,6 +1,6 @@
 # 10cbazbt3 - a menu to interact with the 10Centuries.org social network.
 # (c) Barrie Turner, 2016-03-04 onwards.
-# If you want a version number, you can have 2016-03-09(SillyO'Clock) or 0.12.
+# If you want a version number, you can have 2016-03-10(Late) or 0.13.
 
 # Routines based on the curl examples at https://docs.10centuries.org
 
@@ -117,7 +117,7 @@ def reply():
 
 # Admin subroutines start here:
 
-#Define 'Authorisation' subroutine:
+#Define 'Authorise' subroutine:
 def authorise():
     # Define 'headertokenonly' and 'headers' as global variables, with actual values defined below:
     global headertokenonly
