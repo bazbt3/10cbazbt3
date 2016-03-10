@@ -10,8 +10,8 @@ Incomplete, potentially misleading instructions follow.  This is very much a wor
 
 ## First steps:
 1. [Read the 10Cv4 requirements and developer rules.](https://docs.10centuries.org/auth)  (Incidentally the `curl` examples provided work as-is provided one uses them in a bash script with one's own account data, being careful to make the script executable (`chmod +x {your_auth_script_filename}.sh`.)
-1. Create a Developer Client Key.  *This key must never be shared with any third party.*  Head to your personal admin page and [create a new, ***unique-to-you*** application.](https://admin.10centuries.org/apps/)  The Client Key appears near the botton of the screen, and is used in the next step.
-1. **Important: Create a `10cv4guid.txt`** file in the same folder you intend to store 10cbazbt3.py.  It must contain only one line, and *only* the Developer Client Key - necessary for the application to run.  *The Developer Client Key must not be shared along with the code.*
+1. Create a Developer Client Key.  *This key must never be shared with any third party.*  Head to your personal admin page and [create a new, ***unique-to-you*** application.](https://admin.10centuries.org/apps/)  The Client Key appears near the bottom of the screen, and is used in the next step.
+1. **Important: Create a `10cv4guid.txt`** file in the same directory you intend to store 10cbazbt3.py.  It must contain only one line, and *only* the Developer Client Key - necessary for the application to run.  *The Developer Client Key must not be shared along with the code.*
 1. Copy my [10cbazbt3.py](/10cbazbt3/10cbazbt3.py) code to your machine.
 1. Ensure the file is executable - using Linux it's straightforward: navigate to your chosen directory and `chmod +x 10cbazbt3.py` (assuming no name change.)
 1. Edit the code directory locations within each subroutine within the 10cbazbt3.py file - to suit the directory location ***you*** wish to store it at.
