@@ -2,7 +2,7 @@
 Incomplete, potentially misleading instructions follow.  This is very much a work in progress.
 
 ## Prerequisites:
-* **A copy of the [/10cbazbt3/10cbazbt3.py](/10cbazbt3/10cbazbt3.py) file.**  Important: Please read through the code comments.  The code is currently tailored specifically to *my* Raspberry Pi's folder structure.
+* **A copy of the [/10cbazbt3/10cbazbt3.py](/10cbazbt3/10cbazbt3.py) file.**  Important: Please read through the code comments.  The code is currently tailored specifically to *my* Raspberry Pi's folder structure.  It's also setup to post to only *my* blog - see the 'post' subroutine for the variable to edit - *after* running 'sites' and examining the API feedback.
 
 * **Python 3.** (This won't work with Python 2 without a rewrite.)
 
