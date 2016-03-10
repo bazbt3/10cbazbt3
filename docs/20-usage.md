@@ -23,7 +23,10 @@ Admin:
 Choice?
 ````
 
-Self-explanatory, right?
+Self-explanatory, right?  No, not yet.
+
+## Before blogging for the first time:
+Important: Please read through the code comments.  The code is currently tailored specifically to *my* Raspberry Pi's folder structure.  It's also setup to post to only *my* blog - see the 'post' subroutine for the variable to edit - *after* running **'sites'** and examining the API feedback.
 
 Please note there are no helpful messages if 10cbazbt3.py gets things wrong.  I've tested the basics but it's very early days right now.
 
