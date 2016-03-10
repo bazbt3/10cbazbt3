@@ -61,4 +61,15 @@ An example of a successful authentication:
 }
 ````
 
-For more, including some current limitations, please read the [Usage document.](/docs/20-usage.md)
+At this point the application should be asking you to exit.  Until you do nothing will work.  Please type `exit` and...
+
+## Edit the authtoken.txt file!
+Why?  The *entire* API output is currently saved to a text file.  This limitation will not allow 10cbazbt3.py authenticate until the file is edited.  By you!  Like this:
+
+1. Please open authtoken.txt within your directory.
+1. Strip out all-but the authentication token text - indicated above.
+1. Save the authtoken.txt file.
+1. Run 10cbazbt3.py again.
+1. You're in!  (Hopefully.)
+
+To find out how to start posting, blogging, and read about some current limitations, please read the **[Usage document.](/docs/20-usage.md)**
