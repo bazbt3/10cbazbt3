@@ -9,19 +9,55 @@ Incomplete, potentially misleading instructions follow.  This is very much a wor
 **A [10Centuries.org](http://10centuries.org) account.**  Though the site is out of its limited beta it's currently running on an invite-only basis.
 
 ## First steps:
-1. Create a Developer Client Key.  *This key must never be shared with any third party.*  Head to your personal admin page and [create a new, ***unique-to-you*** application.](https://admin.10centuries.org/apps/)  The Client Key appears near the botton of the screen, and is used in the next step.
-1. **THIS BIT NEEDS WORK - I'M EVEN CONFUSING MYSELF THIS LUNCHTIME!**  Authorise ***your*** unique application.  It is a matter of following the instructions - ***currently only within my code*** - and [understanding the 10Cv4 requirements and developer rules.](https://docs.10centuries.org/auth)  Incidentally the `curl` examples provided work as-is provided one uses them in a bash script with one's own account data, being careful to make the script executable (`chmod +x {your_auth_script_filename}.sh`.
-1. Check the data returned from the server, which should contains a unique 'access token' (which must be used instead of username and password.)  If you see 200 codes it's working nicely.  400-series codes indicate a little more work to be done.
+1. Create a Developer Client Key.  *This key must never be shared with any third party.*  Head to your personal admin page and [create a new, ***unique-to-you*** application.](https://admin.10centuries.org/apps/)  The Client Key appears near the botton of the screen, and is used in the next step.  [Read the 10Cv4 requirements and developer rules.](https://docs.10centuries.org/auth)  (Incidentally the `curl` examples provided work as-is provided one uses them in a bash script with one's own account data, being careful to make the script executable (`chmod +x {your_auth_script_filename}.sh`.)
+1. **Important: Create a `10cv4guid.txt`** file in the same folder you intend to store 10cbazbt3.py.  It must contain only one line, and *only* the Developer Client Key - necessary for the application to run.  *The Developer Client Key must not be shared along with the code.*
 1. Copy my [10cbazbt3.py](/10cbazbt3/10cbazbt3.py) code to your machine.
-1. Edit the directory locations within each subroutine within the 10cbazbt3.py file - to suit the directory location ***you*** wish to store it at.
-1. Make sure the file is executable - using Linux it's straightforward: navigate to your chosen direcdtory and `chmod +x 10cbazbt3.py` (assmunming no name change.)
-1. **AT WORK, I'VE FORGOTTEN THE NAME** Create a .txt file - which will store the auth token necessary for the application to run.  Neither this nor the Developer Client Key must be shared with the code.
+1. Ensure the file is executable - using Linux it's straightforward: navigate to your chosen directory and `chmod +x 10cbazbt3.py` (assuming no name change.)
+1. Edit the code directory locations within each subroutine within the 10cbazbt3.py file - to suit the directory location ***you*** wish to store it at.
 
-## To run 10cbazbt3:
+## Run 10cbazbt3 for the first time:
+
 Either:
 
-1. Navigate to the command line, type `python3 10cbazbt3.py`, or
-1. Open your favourie Python 3 IDE - I use Python 3 (IDLE) - and open then run the file.
+* Navigate to the command line, type `python3 10cbazbt3.py`, or
+* Open your favourie Python 3 IDE - I use Python 3 (IDLE) - and open then run the file.
 
-## Failure:
-In a nutshell, I'm currently unable to 'translate' the responses returned from the API into anything I can use **within the application.**  Is it text, is it JSON, is it human-readable?  It is all 3 - of course - but I'm a noob.  It's only a matter of time before it clicks into place though, right?
+This menu (or something similar) should appear at this point:
+
+````
+10cbazbt3 menu:
+  b = Blurb (social post)
+  p = Post (blog post)
+  m = Mentions
+  r = Reply
+
+  exit = Exit
+
+Admin:
+  sites =  Sites owned by user
+  Login =  Login (deletes current auth token!)
+  Logout = Logout (deletes current auth token!)
+
+Choice?
+````
+
+1. Type `Login` at the prompt - uppercase and lowercase text - the full word.
+1. Type your 10Cv4 username (email address!) when prompted by `Username (email): `
+1. Type your 10Cv4 Password when prompted by `Password: `
+
+Carefully check the data returned from the server and displayed onscreen.  It should contains a unique 'access token' (used instead of username and password.)  If you see a `200` in the midst of the code it's working nicely.  `400`-series codes indicate a little more work to be done.
+
+An example of a successful authentication:
+
+````
+{
+    "meta": {
+        "code": 200
+    },
+    "data": {
+        "token": "{A Valid Authentication Token}"
+    }
+}
+````
+
+For more, including some current limitations, please read the [Usage document.](/docs/20-usage.md)
