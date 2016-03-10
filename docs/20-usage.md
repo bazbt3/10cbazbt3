@@ -23,4 +23,4 @@ Choice?
 
 Self-explanatory, right?
 
-More to follow!
+There is more to follow, but for now please take a look at the [Technical document](/docs/30-technical.md) - it is a placeholder for now.
