@@ -173,10 +173,10 @@ def login():
     # Will be made better when I can extract data from the server responses.
     print(response.text)
     print("")
-    print("Done - at this stage manually editing loginresponse.txt to remove all-but the Authetication Token is now NECESSARY!")
+    print("Done - at this stage manually editing loginresponse.txt to remove all-but the Authentication Token is now NECESSARY!")
     print("")
     print("Please exit.")
-    print ("")
+    print("")
 
 # Define the 'Logout' subroutine:
 def logout():
