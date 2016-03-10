@@ -30,4 +30,4 @@ Important: Please read through the code comments.  The code is currently tailore
 
 Please note there are no helpful messages if 10cbazbt3.py gets things wrong.  I've tested the basics but it's very early days right now.
 
-There is more to follow, but for now please take a look at the [Technical document](/docs/30-technical.md) - it is a placeholder for now.
+There is more to follow, but for now please take a look at the **[Technical document](/docs/30-technical.md)** - it is a placeholder for now.
