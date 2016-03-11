@@ -9,6 +9,10 @@
 ## Initial history:
 (Most recent on top.)
 
+### 2016-03-10: 4th upload:
+* Login now only requires user to copy the token from the JSON response and paste it into an input line,
+* Fixed 'sites' menu option.
+
 ### 2016-03-09: Third upload:
 * **Almost-completed:** login & logout (initially REQUIRES manual edit of authtoken.txt.)
 
