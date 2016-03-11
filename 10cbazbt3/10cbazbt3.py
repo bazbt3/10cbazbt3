@@ -21,6 +21,7 @@ import requests
 # Load time-related stuff:
 from time import strftime
 
+
 # DEFINE SUBROUTINES:
 
 # Define the 'Blurb' (social post) subroutine:
@@ -44,8 +45,9 @@ def blurb():
     print(response.text)
     print("")
     print("Done - see also serverresponse.txt.")
-    print ("")
-    
+    print("")
+
+
 # Define the 'Post' (blog post) subroutine:
 def post():
     # Input blog post data:
@@ -68,7 +70,8 @@ def post():
     print(response.text)
     print("")
     print("Done - see also serverresponse.txt.")
-    print ("")
+    print("")
+
 
 # Define the 'Mentions' subroutine:
 def mentions():
@@ -88,7 +91,8 @@ def mentions():
     print(response.text)
     print("")
     print("Done - see servermentionsresponse.txt.")
-    print ("")
+    print("")
+
 
 # Define the 'Reply' subroutine:
 def reply():
@@ -113,11 +117,12 @@ def reply():
     print(response.text)
     print("")
     print("Done - see serverresponse.txt.")
-    print ("")
+    print("")
+
 
 # Admin subroutines start here:
 
-#Define 'Authorise' subroutine:
+# Define 'Authorise' subroutine:
 def authorise():
     # Define 'headertokenonly' and 'headers' as global variables, with actual values defined below:
     global headertokenonly
@@ -128,10 +133,11 @@ def authorise():
     # This header contains only the token - used when only an auth header is required,
     authtokenonlyfile = open("/home/pi/10cv4/authtoken.txt", "r")
     authtokenonly = authtokenonlyfile.read()
-    headertokenonly = {'Authorization': authtokenonly}    
+    headertokenonly = {'Authorization': authtokenonly}
     # Define 'headers' global variable - uses 'authtokenonly' from above,
     # This header is used throughout the application:
-    headers = {'Authorization': authtokenonly, 'Content-Type': 'application/x-www-form-urlencoded'}    
+    headers = {'Authorization': authtokenonly, 'Content-Type': 'application/x-www-form-urlencoded'}
+
 
 # Define the 'Login' subroutine:
 def login():
@@ -164,6 +170,7 @@ def login():
     print("Re-authorised (but please check!)")
     print("")
 
+
 # Define the 'Logout' subroutine:
 def logout():
     # The logout URL:
@@ -178,7 +185,8 @@ def logout():
     print(response.text)
     print("")
     print("Done - see logoutresponse.txt.")
-    print ("")
+    print("")
+
 
 # Define the 'Sites' query subroutine:
 def sites():
@@ -194,7 +202,8 @@ def sites():
     print(response.text)
     print("")
     print("Done - see serverresponse.txt.")
-    print ("")
+    print("")
+
 
 # MAIN ROUTINE STARTS:
 
@@ -227,7 +236,7 @@ print("  Logout = Logout (deletes current auth token!)")
 print("")
 
 choice = "Little Bobby Tables"
-while (choice != 'exit'):
+while choice != 'exit':
     choice = input("Choice? ")
     print("The chosen option is:" + choice)
     print("")
