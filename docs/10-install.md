@@ -46,30 +46,10 @@ Choice?
 1. Type your 10Cv4 username (email address!) when prompted by `Username (email): `
 1. Type your 10Cv4 Password when prompted by `Password: `
 
-Carefully check the data returned from the server and displayed onscreen.  It should contains a unique 'access token' (used instead of username and password.)  If you see a `200` in the midst of the code it's working nicely.  `400`-series codes indicate a little more work to be done.
+Carefully check the data returned from the server and displayed onscreen.  It should contains a unique 'token' (used instead of username and password.)  If you see a `200` in the midst of the code it's working nicely.  `400`-series codes indicate a little more work to be done.  Here's a not-pretty example of a successful authentication:
 
-An example of a successful authentication:
+`{ "meta": { "code": 200 }, "data": { "token": "{A Valid Authentication Token}" } }`
 
-````
-{
-    "meta": {
-        "code": 200
-    },
-    "data": {
-        "token": "{A Valid Authentication Token}"
-    }
-}
-````
-
-At this point the application should be asking you to exit.  Until you do nothing will work.  Please type `exit` and...
-
-## Edit the authtoken.txt file!
-Why?  The *entire* API output is currently saved to a text file.  This limitation will not allow 10cbazbt3.py authenticate until the file is edited.  By you!  Like this:
-
-1. Please open authtoken.txt within your directory.
-1. Strip out all-but the authentication token text - indicated above.
-1. Save the authtoken.txt file.
-1. Run 10cbazbt3.py again.
-1. You're in!  (Hopefully.)
+At this point 10cbazbt3 will ask you to copy the Authentication Token and paste it into an input line.  When that's done, 10cbazbt3 is usable.
 
 To find out how to start posting, blogging, and read about some current limitations, please read the **[Usage document.](/docs/20-usage.md)**
