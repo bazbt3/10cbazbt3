@@ -27,7 +27,7 @@ Easy:
 
 1. Type `b`, press [enter],
 1. Read the prompt, write some text, press [enter],
-1. the post appears at 10C.
+1. The post appears at 10C.
 
 ---
 
