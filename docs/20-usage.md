@@ -29,6 +29,8 @@ Easy:
 1. Read the prompt, write some text, press [enter],
 1. the post appears at 10C.
 
+---
+
 ### `p = Post (blog post)`:
 Not quite as straightforward as a Blurb:
 
@@ -39,6 +41,8 @@ Not quite as straightforward as a Blurb:
 
 #### Before blogging for the first time:
 Important: Please read through the code comments.  The code is currently tailored specifically to *my* Raspberry Pi's folder structure.  It's also setup to post to only *my* blog - see the 'post' subroutine for the variable to edit - *after* running **'sites'** and examining the API feedback.
+
+---
 
 ### `m = Mentions`:
 Hard to work with:
@@ -51,6 +55,8 @@ When interacting with the !0Cv4 server using 10cbazbt3, the server feedback appe
 
 In a nutshell, I'm currently unable to 'translate' the responses returned from the API into anything I can use **within the application.**  Is it text, is it JSON, is it human-readable?  It is all 3 - of course - but I'm a noob.  It's only a matter of time before it clicks into place though, right?
 
+---
+
 ### `r = Reply`:
 Reply comes after 'mentions' here for 2 reasons:
 
@@ -60,19 +66,25 @@ Reply comes after 'mentions' here for 2 reasons:
 1. Type `r`, press [enter],
 1. Read the prompt,
 1. Enter the post number you wish to reply to,
-1. Write some text, presse [enter].
+1. Write some text, press [enter].
+
+---
 
 ### `exit = Exit`:
 Easy.
 
-* Type `exit`, press [enter], the application ends.
+1. Type `exit`, press [enter], the application ends.
+
+---
 
 ## The Admin menu:
 
 ### `sites =  Sites owned by user`:
 Occasionally useful:
 
-1. Type `Logout`: it returns details of the sites, channels owned by the application's current user.
+1. Type `sites`: it returns details of the sites, channels owned by the application's current user.
+
+---
 
 ### `Login =  Login (deletes current auth token!)`:
 Needs concentration:
@@ -83,7 +95,9 @@ Needs concentration:
 1. Read the prompt,
 1. Copy the code *as-indicated* by the prompt,
 1. Reposition the cursor on the input line, paste the clipboard contents, press [enter],
-1. Check the applicatio is logged in again.
+1. Check the application is logged in again.
+
+---
 
 ### `Logout = Logout (deletes current auth token!)`
 Easy:
