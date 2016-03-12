@@ -18,7 +18,9 @@
 
 # Load an http library:
 import requests
-# Load time-related stuff:
+# Load system-specific library:
+import sys
+# Load time-related library stuff:
 from time import strftime
 
 
@@ -40,11 +42,12 @@ def blurb():
     file = open("/home/pi/10cv4/serverresponse.txt", "w")
     file.write(response.text)
     file.close()
-    # Displays the server's response - *all* of it.
-    # Will be made better when I can extract data from the server responses.
-    print(response.text)
-    print("")
-    print("Done - see also serverresponse.txt.")
+    # Displays the server's response:
+    responsestatus = response.status_code
+    if responsestatus == 200:
+        print("Ok.")
+    elif responsestatus != 200:
+        print("Something went wrong. Are you logged in?")
     print("")
 
 
@@ -52,7 +55,9 @@ def blurb():
 def post():
     # Input blog post data:
     posttitle = input("Write a blog post title: ")
-    posttext = input("Write a blog post: ")
+    print("Write a blog post:")
+    print("(Press [ctrl-d] to 'save' when you finish writing.)")
+    posttext = sys.stdin.read()
     # Adds a post date & time, currently set as 'now':
     postdatetime = strftime("%Y-%m-%d %H:%M:%S")
     # (I decided to not save blog post text to a file for blog posts.)
@@ -65,11 +70,12 @@ def post():
     file = open("/home/pi/10cv4/serverresponse.txt", "w")
     file.write(response.text)
     file.close()
-    # Displays the server's response - *all* of it.
-    # Will be made better when I can extract data from the server responses.
-    print(response.text)
-    print("")
-    print("Done - see also serverresponse.txt.")
+    # Displays the server's response:
+    responsestatus = response.status_code
+    if responsestatus == 200:
+        print("Ok.")
+    elif responsestatus != 200:
+        print("Something went wrong. Are you logged in?")
     print("")
 
 
@@ -112,11 +118,12 @@ def reply():
     file = open("/home/pi/10cv4/serverresponse.txt", "w")
     file.write(response.text)
     file.close()
-    # Displays the server's response onscreen - *all* of it:
-    # Will be made better when I can extract data from the server responses.
-    print(response.text)
-    print("")
-    print("Done - see serverresponse.txt.")
+    # Displays the server's response:
+    responsestatus = response.status_code
+    if responsestatus == 200:
+        print("Ok.")
+    elif responsestatus != 200:
+        print("Something went wrong. Are you logged in?")
     print("")
 
 
@@ -238,7 +245,6 @@ print("")
 choice = "Little Bobby Tables"
 while choice != 'exit':
     choice = input("Choice? ")
-    print("The chosen option is:" + choice)
     print("")
     if choice == 'b':
         blurb()
