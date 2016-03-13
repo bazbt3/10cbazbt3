@@ -1,6 +1,6 @@
 # 10cbazbt3 - a menu to interact with the 10Centuries.org social network.
 # (c) Barrie Turner, 2016-03-04 onwards.
-# If you want a version number, you can have 2016-03-12(Reasonable hour) or 0.14.
+# If you want a version number, you can have 2016-03-13(Mid-afternoon) or 0.15.
 
 # Routines based on the curl examples at https://docs.10centuries.org
 
@@ -14,19 +14,45 @@
 # To make *your* application work please check each subroutine and replace the folder location as necessary!
 # THIS APPLICATION DOESN'T YET PARSE (JSON), SO API RESPONSES ARE *ALMOST* HUMAN-READABLE!
 
+
 # SETUP:
 
 # Load an http library:
 import requests
 # Load system-specific library:
 import sys
-# Load time-related library stuff:
+# Load time-related library stuff (there may be duplication here):
 from time import strftime
+import calendar
+from datetime import datetime
+
+# Define a global login status indicator:
+global loginstatus
 
 
 # DEFINE SUBROUTINES:
 
-# Define the 'Blurb' (social post) subroutine:
+# Define 'menu' subroutine:
+def menu():
+    print("10cbazbt3 menu:")
+    print("  b = Blurb (social post)")
+    print("  p = Post (blog post)")
+    print("  m = Mentions")
+    print("  r = Reply")
+    print("")
+    print("  menu = redisplay Menu")
+    print("  exit = Exit")
+    print("")
+    print("Admin:")
+    print("  sites =  Sites owned by user")
+    print("  Login =  Login (deletes current auth token!)")
+    print("  Logout = Logout (deletes current auth token!)")
+    print("")
+
+
+# DEFINE 10C INTERACTIONS:
+
+# Define the 'blurb' (social post) subroutine:
 def blurb():
     # Input some text:
     posttext = input("Write some text: ")
@@ -51,7 +77,7 @@ def blurb():
     print("")
 
 
-# Define the 'Post' (blog post) subroutine:
+# Define the 'post' (blog post) subroutine:
 def post():
     # Input blog post data:
     posttitle = input("Write a blog post title: ")
@@ -79,7 +105,7 @@ def post():
     print("")
 
 
-# Define the 'Mentions' subroutine:
+# Define the 'mentions' subroutine:
 def mentions():
     # How many mentions posts to retrieve? ***(Doesn't currently work!)***
     mentionscount = input("How many mentions: ")
@@ -100,7 +126,7 @@ def mentions():
     print("")
 
 
-# Define the 'Reply' subroutine:
+# Define the 'reply' subroutine:
 def reply():
     # Input a reply-to post number:
     replytoid = input("Post number to reply to: ")
@@ -127,9 +153,9 @@ def reply():
     print("")
 
 
-# Admin subroutines start here:
+# DEFINE 10C ADMIN SUBROUTINES:
 
-# Define 'Authorise' subroutine:
+# Define 'authorise' subroutine:
 def authorise():
     # Define 'headertokenonly' and 'headers' as global variables, with actual values defined below:
     global headertokenonly
@@ -146,7 +172,7 @@ def authorise():
     headers = {'Authorization': authtokenonly, 'Content-Type': 'application/x-www-form-urlencoded'}
 
 
-# Define the 'Login' subroutine:
+# Define the 'login' subroutine:
 def login():
     # Input account name:
     my_acctname = input("Username (email): ")
@@ -166,7 +192,7 @@ def login():
     print(response.text)
     print("")
     # Have the *user* parse the Authentication Token and manually enter it, here:
-    print("Please copy the Authentication Token text line - between {} - from above and paste it into the line below:")
+    print("Please copy the Authentication Token text line - indicated by the asterisks here {\"=\"token\":\"***\"} - from above and paste it into the line below:")
     temptoken = input("Paste it here: ")
     file = open("/home/pi/10cv4/authtoken.txt", "w")
     file.write(temptoken)
@@ -174,11 +200,12 @@ def login():
     print("")
     # Re-authorise now:
     authorise()
-    print("Re-authorised (but please check!)")
+    print("Re-authorised (but check for a 'connected' indicator!)")
     print("")
+    setloginstatus("In")
 
 
-# Define the 'Logout' subroutine:
+# Define the 'logout' subroutine:
 def logout():
     # The logout URL:
     url = 'https://api.10centuries.org/auth/logout'
@@ -193,9 +220,10 @@ def logout():
     print("")
     print("Done - see logoutresponse.txt.")
     print("")
+    setloginstatus("Out")
 
 
-# Define the 'Sites' query subroutine:
+# Define the 'sites' query subroutine:
 def sites():
     # Uses the global header & creates the data to be passed to the url:
     url = 'https://api.10centuries.org/users/sites'
@@ -212,6 +240,42 @@ def sites():
     print("")
 
 
+# DEFINE MISCELLANEOUS SUBROUTINES:
+
+# Define 'setloginstatus' subroutine:
+def setloginstatus(loginstatus):
+    file = open("/home/pi/10cv4/loginstatus.txt", "w")
+    file.write(loginstatus)
+    file.close()
+
+
+# Define 'checkloginstatusfile' subroutine:
+def checkloginstatusfile():
+    try:
+       open("/home/pi/10cv4/loginstatus.txt")
+    except IOError as e:
+       print("Please login.")
+       setloginstatus("Out")
+
+
+#Define 'checkloginstatus' subroutine:
+def checkloginstatus():
+    checkloginstatusfile()
+    loginstatusfile = open("/home/pi/10cv4/loginstatus.txt", "r")
+    loginstatus = loginstatusfile.read()
+    if loginstatus == "Out":
+        print("Please login.")
+    elif loginstatus == "In":
+        print("Connected.")
+
+
+# Define 'gettime' subroutine:
+# DO NOT NOT USE - WORK JUST STARTED!
+def gettime():
+    d = datetime.utcnow()
+    timestamp=calendar.timegm(d.utctimetuple())
+
+
 # MAIN ROUTINE STARTS:
 
 # AUTHENTICATION:
@@ -225,25 +289,14 @@ my_client_guid = myclientguidfile.read()
 # Use the Authentication Token (now handled by 'authorise' subroutine):
 authorise()
 
-# MENU:
+# MENU STARTS:
 
+# Prints the menu text:
+menu()
 # The menu has no input validation outside valid options:
-print("10cbazbt3 menu:")
-print("  b = Blurb (social post)")
-print("  p = Post (blog post)")
-print("  m = Mentions")
-print("  r = Reply")
-print("")
-print("  exit = Exit")
-print("")
-print("Admin:")
-print("  sites =  Sites owned by user")
-print("  Login =  Login (deletes current auth token!)")
-print("  Logout = Logout (deletes current auth token!)")
-print("")
-
 choice = "Little Bobby Tables"
 while choice != 'exit':
+    checkloginstatus()
     choice = input("Choice? ")
     print("")
     if choice == 'b':
@@ -254,12 +307,14 @@ while choice != 'exit':
         mentions()
     elif choice == 'r':
         reply()
+    elif choice == 'menu':
+        menu()
     elif choice == 'sites':
         sites()
     elif choice == 'Login':
         login()
     elif choice == 'Logout':
         logout()
-
-# The menu exits here:
+# The menu exits here once 'exit' is typed:
+print("")
 print("You chose 'exit': Goodbye!")
