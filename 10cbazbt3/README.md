@@ -9,7 +9,7 @@
 ## Changelog:
 (Most recent on top.)
 
-### 2016-03-13: v0.15 (Mid-afternoon):
+### 2016-03-13: v0.1.5 (Mid-afternoon):
 * Completed and tested login status indicator code.
 * Added check for the existence of the status indicator file.
 * Started work on a Unix timestamp generator subroutine.
