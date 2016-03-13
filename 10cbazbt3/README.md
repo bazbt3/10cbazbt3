@@ -9,22 +9,27 @@
 ## Changelog:
 (Most recent on top.)
 
-### 2016-03-12: 5th upload:
+### 2016-03-13: v0.15 (Mid-afternoon):
+* Completed and tested login status indicator code.
+* Added check for the existence of the status indicator file.
+* Started work on a Unix timestamp generator subroutine.
+
+### 2016-03-12: v0.14 (Reasonable hour):
 * **Enhanced:** Blog posts: Used `posttext = sys.stdin.read()` to allow multi-line posts to be created when [enter] is pressed - rather than *posting* the content.  The post is committed by pressing [ctrl-d] on a new line.  It does not allow editing of lines already committed to the buffer, but it's a start.
 * Tidied server responses - now 'Ok.' for `200` success, or 'Something went wrong. Are you logged in?' for `!= 200`.
 
-### 2016-03-10: 4th upload:
+### 2016-03-10: v0.13 (Late):
 * **Usable:** Login now only requires user to copy the token from the JSON response and paste it into an input line,
 * Fixed 'sites' menu option.
 
-### 2016-03-09: Third upload:
+### 2016-03-09: v0.12 (SillyO'Clock):
 * **Almost-completed:** Login & Logout (initially REQUIRES manual edit of authtoken.txt.)
 
-### 2016-03-08: Second upload, with the following features in addition to the preceding:
+### 2016-03-08: v0.11 (Second upload, with the following features in addition to the preceding):
 * Authentication/authorisation IDs/tokens moved out of the application into text files,
 * **Started:** Login & Logout (will initially require manual 'save' of data returned from the API.)
 
-### 2016-03-06: First upload, with the following features:
+### 2016-03-06: v0.10 (First upload, with the following features):
 * Post a Blurb - a social post,
 * Post a blog entry,
 * Collect the most recent 50 mentions, though it's the 'raw' response at this stage,
