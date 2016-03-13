@@ -21,7 +21,7 @@ Incomplete, potentially misleading instructions follow.  This is very much a wor
 Either:
 
 * Navigate to the command line, type `python3 10cbazbt3.py`, or
-* Open your favourie Python 3 IDE - I use Python 3 (IDLE) - and open then run the file.
+* Open your favourie Python 3 IDE - I use Python 3 (IDLE) - and open then run the file (runs slower than the command line.)
 
 This menu (or something similar) should appear at this point:
 
