@@ -11,7 +11,7 @@
 (Most recent on top.)
 
 ### 2016-03-13: [v0.1.5 (Mid-afternoon)](https://github.com/bazbt3/10cbazbt3/commit/a6030f40431c4d7609914eb19c2c643d33847ab4):
-* Completed and tested login status indicator code.
+* Completed and tested logged-in status indicator code.
 * Added check for the existence of the status indicator file.
 * Started work on a Unix timestamp generator subroutine.
 * Changed version numbering scheme: 0.1.5 is identical to the old 0.15.  I hope this will be better-suited to recording the magnitude of the changes brought by updates.  (The commit link refers to the code updates at 0.15.)
