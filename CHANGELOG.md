@@ -14,7 +14,9 @@
 * Completed and tested logged-in status indicator code.
 * Added check for the existence of the status indicator file.
 * Started work on a Unix timestamp generator subroutine.
-* Changed version numbering scheme: 0.1.5 is identical to the old 0.15.  I hope this will be better-suited to recording the magnitude of the changes brought by updates.  (The commit link refers to the code updates at 0.15.)
+
+### Changed version numbering scheme:
+0.1.5 above is identical to the old 0.15.  I hope this will be better-suited to recording the magnitude of the changes brought by updates.  (The commit link above refers to the code updates at 0.15.)
 
 ### 2016-03-12: [v0.14 (Reasonable hour)](https://github.com/bazbt3/10cbazbt3/commit/9e45404ff15c3a6b004a36f684005d96a6738ca4):
 * **Enhanced:** Blog posts: Used `posttext = sys.stdin.read()` to allow multi-line posts to be created when [enter] is pressed - rather than *posting* the content.  The post is committed by pressing [ctrl-d] on a new line.  It does not allow editing of lines already committed to the buffer, but it's a start.
