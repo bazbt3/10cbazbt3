@@ -61,7 +61,7 @@ In a nutshell, I'm currently unable to 'translate' the responses returned from t
 Reply comes after 'mentions' here for 2 reasons:
 
 * Mentions is *very* incomplete.  It returns the API server response, but extracts nothing meaningful from it.
-* The 10C Blurbs screen currently has an anchor with each post - hovering over it gives a post number.  Use that. until this application works!
+* The 10C Blurbs screen currently has an anchor with each post - hovering over it gives a post number.  Use that until this application works!
 
 1. Type `r`, press [enter],
 1. Read the prompt,
