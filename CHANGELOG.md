@@ -1,12 +1,13 @@
-## Here's the code
+# CHANGELOG
+
 ### Things to note:
 * This application `10cbazbt3.py` is being developed on a Raspberry Pi using **Python 3**.
 * My code and dependent files are stored in: `~/home/pi/10cv4/` - the directory is mentioned in each subroutine.
 * There's a way to go before this is as 'modular' as I'd like.
-* What there is, it works - provided a valid auth token is used.
+* What there is, it works - provided a valid developer auth token is used.
 * What there is, it's a noob's first attempt at proper Python *and* interacting with an API.  Please tread carefully.
 
-## Changelog:
+## The Changelog:
 (Most recent on top.)
 
 ### 2016-03-13: v0.1.5 (Mid-afternoon):
