@@ -13,6 +13,7 @@
 * Completed and tested login status indicator code.
 * Added check for the existence of the status indicator file.
 * Started work on a Unix timestamp generator subroutine.
+* Changed version numbering scheme: 0.1.5 is identical to the old 0.15.  I hope this will be better-suited to recording the magnitude of the changes brought by updates.
 
 ### 2016-03-12: v0.14 (Reasonable hour):
 * **Enhanced:** Blog posts: Used `posttext = sys.stdin.read()` to allow multi-line posts to be created when [enter] is pressed - rather than *posting* the content.  The post is committed by pressing [ctrl-d] on a new line.  It does not allow editing of lines already committed to the buffer, but it's a start.
