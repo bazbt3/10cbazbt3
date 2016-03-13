@@ -1,6 +1,6 @@
 # 10cbazbt3 - a menu to interact with the 10Centuries.org social network.
 # (c) Barrie Turner, 2016-03-04 onwards.
-# If you want a version number, you can have 2016-03-13(Mid-afternoon) or 0.15.
+# If you want a version number, you can have 2016-03-13(Mid-afternoon) or 0.1.5.
 
 # Routines based on the curl examples at https://docs.10centuries.org
 
