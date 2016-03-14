@@ -1,6 +1,6 @@
 # 10cbazbt3 - a menu to interact with the 10Centuries.org social network.
 # (c) Barrie Turner, 2016-03-04 onwards.
-# If you want a version number, you can have 2016-03-13(Mid-afternoon) or 0.1.5.
+# If you want a version number, you can have 2016-03-13(Evening) or 0.1.6.
 
 # Routines based on the curl examples at https://docs.10centuries.org
 
@@ -10,8 +10,7 @@
 # Important:
 # Created & tested only on a Raspberry Pi 2 B running Raspbian Linux,
 # Created using Python 3 (IDLE).
-# All this application's data files are currently stored in '/home/pi/10cv4/' on my machine,
-# To make *your* application work please check each subroutine and replace the folder location as necessary!
+# All this application's data files are currently stored in '/home/pi/10cv4/',
 # THIS APPLICATION DOESN'T YET PARSE (JSON), SO API RESPONSES ARE *ALMOST* HUMAN-READABLE!
 
 
@@ -25,6 +24,8 @@ import sys
 from time import strftime
 import calendar
 from datetime import datetime
+# Load password library:
+import getpass
 
 # Define a global login status indicator:
 global loginstatus
@@ -175,9 +176,9 @@ def authorise():
 # Define the 'login' subroutine:
 def login():
     # Input account name:
-    my_acctname = input("Username (email): ")
+    my_acctname = input("10C Username (account email address): ")
     # Input account password:
-    my_acctpass = input("Password: ")
+    my_acctpass = getpass.getpass("10C Password (is not shown onscreen): ")
     # The login URL:
     url = 'https://api.10centuries.org/auth/login'
     loginheaders = {'Content-Type': 'application/x-www-form-urlencoded'}
