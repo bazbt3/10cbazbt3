@@ -10,6 +10,9 @@
 ## The Changelog:
 (Most recent on top.)
 
+### 2016-03-14: [v0.1.6 (Evening)](https://github.com/bazbt3/10cbazbt3/commit/d98988c31e1c903566ca98686d1e45ded75b2b3c)
+* Obscured password entry in Login subroutine - actually nothing is echoed onscreen.  (It works nicely in a terminal window but errors in Python 3 IDLE and defaults to visible text entry.)
+
 ### 2016-03-13: [v0.1.5 (Mid-afternoon)](https://github.com/bazbt3/10cbazbt3/commit/a6030f40431c4d7609914eb19c2c643d33847ab4):
 * Completed and tested logged-in status indicator code.
 * Added check for the existence of the status indicator file.
