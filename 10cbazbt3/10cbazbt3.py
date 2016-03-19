@@ -1,6 +1,6 @@
 # 10cbazbt3 - a menu to interact with the 10Centuries.org social network.
 # (c) Barrie Turner, 2016-03-04 onwards.
-# If you want a version number, you can have 2016-03-13(Evening) or 0.1.6.
+# If you want a version number, you can have 2016-03-19(Post Earth Hour) or 0.1.7.
 
 # Routines based on the curl examples at https://docs.10centuries.org
 
@@ -11,13 +11,15 @@
 # Created & tested only on a Raspberry Pi 2 B running Raspbian Linux,
 # Created using Python 3 (IDLE).
 # All this application's data files are currently stored in '/home/pi/10cv4/',
-# THIS APPLICATION DOESN'T YET PARSE (JSON), SO API RESPONSES ARE *ALMOST* HUMAN-READABLE!
+# APPLICATION DOESN'T YET PARSE JSON WELL; OUTPUT IS ALMOST HUMAN-READABLE!
 
 
 # SETUP:
 
-# Load an http library:
+# Load Requests http library:
 import requests
+# Load JSON *in addition to that built into Requests*:
+import json
 # Load system-specific library:
 import sys
 # Load time-related library stuff (there may be duplication here):
@@ -38,7 +40,7 @@ def menu():
     print("10cbazbt3 menu:")
     print("  b = Blurb (social post)")
     print("  p = Post (blog post)")
-    print("  m = Mentions")
+    print("  m = get Mentions")
     print("  r = Reply")
     print("")
     print("  menu = redisplay Menu")
@@ -108,20 +110,52 @@ def post():
 
 # Define the 'mentions' subroutine:
 def mentions():
-    # How many mentions posts to retrieve? ***(Doesn't currently work!)***
+    # How many mentions posts to retrieve?
     mentionscount = input("How many mentions: ")
     mentionscount = str(mentionscount)
     # Uses the global header & creates the data to be passed to the url:
-    url = 'https://api.10centuries.org/content/blurbs/mentions'
+    # Note: only appending mentionscount to the URL works, i.e. fails passed as data.
+    url = 'https://api.10centuries.org/content/blurbs/mentions?count=' + mentionscount
     data = {'count': mentionscount}
     response = requests.get(url, headers=headers, data=data)
     # Saves the server's response to 'serverresponse.txt':
     file = open("/home/pi/10cv4/servermentionsresponse.txt", "w")
     file.write(response.text)
     file.close()
-    # Displays the server's response - *all* of it. Page after page!
-    # Will be made better when I can extract data from the server responses.
-    print(response.text)
+
+    # Displays the server's response, followed by some useful output.
+    # Old code: print(response.text)
+    # Open the 'servermentionsresponse.txt' file:
+    json_data = open("/home/pi/10cv4/servermentionsresponse.txt", "r")
+    # Main routine to decode the data:
+    # Adapted from Python 2.x stuff at http://xmodulo.com/how-to-parse-json-string-in-python.html:
+    # Main decode routine within an exception handler:
+    try:
+        decoded = json.load(json_data)
+        # Pretty printing of json-formatted string:
+        # Retained whilst developing & debugging:
+        print (json.dumps(decoded, sort_keys=True, indent=4))
+        print("")
+        # Extracting useful data from json-formatted string:
+        mentionscount = int(mentionscount)
+        print("")
+        print("----------------")
+        for i in range(mentionscount):
+            # Prints post id:
+            print ("Post id: ", decoded['data'][i]['id'])
+            print("----------------")
+            # Prints *all* of the poster's data:
+            # Needs work to extract the data from this:
+            print("By: ", decoded['data'][i]['account'])
+            print("")
+            # Prints the post test:
+            print (decoded['data'][i]['content']['text'])
+            print("")
+            print("----------------")
+    # Exception handler ends here:
+    except (ValueError, KeyError, TypeError):
+        print ("JSON format error")
+    # Reminder of the unformatted file location, for the curious:
     print("")
     print("Done - see servermentionsresponse.txt.")
     print("")
