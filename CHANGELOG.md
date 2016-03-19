@@ -10,6 +10,9 @@
 ## The Changelog:
 (Most recent on top.)
 
+### 2016-03-19: [v0.1.7 (Post-Earth Hour)](https://github.com/bazbt3/10cbazbt3/commit/57066e4ef85c90fc741431d038047871263135c0)
+* Begun to display mentions in a conventional, more-readable format.  (Added a JSON decoder within the Mentions subroutine, but one which currently fails to properly parse the poster's display name.)
+
 ### 2016-03-14: [v0.1.6 (Evening)](https://github.com/bazbt3/10cbazbt3/commit/d98988c31e1c903566ca98686d1e45ded75b2b3c)
 * Obscured password entry in Login subroutine - actually nothing is echoed onscreen.  (It works nicely in a terminal window but errors in Python 3 IDLE and defaults to visible text entry.)
 
