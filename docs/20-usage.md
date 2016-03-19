@@ -51,7 +51,7 @@ Somewhat hard to work with:
 1. Enter the number of mentions you wish to display,
 1. Read the screen.
 
-A mention *display* is currently made up of 4 sections: the pretty-printed JSON from the API followed by a list of posts; the post ID, poster data, and the post text.  I must still format the poster id data but the example below shows the poster's display name on the last line of the data 'block.'
+A mention *display* is currently made up of 4 sections: the pretty-printed JSON from the API followed by a list of posts.  Each post contains the post ID, poster data, and the post text.  I must still format the poster id data but the example below shows the poster's display name on the last line of the data 'block.'
 
 ````
 ----------------
@@ -70,8 +70,8 @@ It's a vast improvement over the previous (unpublished) failures.  When interact
 ### `r = Reply`:
 Reply comes after 'mentions' here for 2 reasons:
 
-* Mentions is *very* incomplete.  It returns the API server response, but extracts nothing meaningful from it.
-* The 10C Blurbs screen currently has an anchor with each post - hovering over it gives a post number.  Use that until this application works!
+* Mentions is *very* incomplete.  It now returns a post id, unformatted poster id, and the post text.
+* The 10C site Blurbs screen currently has an anchor with each post - hovering over it gives a post number.  Use that until this application works!
 
 1. Type `r`, press [enter],
 1. Read the prompt,
