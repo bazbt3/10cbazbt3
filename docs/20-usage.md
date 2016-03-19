@@ -45,15 +45,25 @@ Important: Please read through the code comments.  The code is currently tailore
 ---
 
 ### `m = Mentions`:
-Hard to work with:
+Somewhat hard to work with:
 
 1. Type `m`, press [enter]
+1. Enter the number of mentions you wish to display,
 1. Read the screen.
 
-#### Failure:
-When interacting with the !0Cv4 server using 10cbazbt3, the server feedback appears to be gibberish.  Lots of it.  *It's my fault entirely.*
+A mention *display* is currently made up of 4 sections: the pretty-printed JSON from the API followed by a list of posts; the post ID, poster data, and the post text.  I must still format the poster id data but the example below shows the poster's display name on the last line of the data 'block.'
 
-In a nutshell, I'm currently unable to 'translate' the responses returned from the API into anything I can use **within the application.**  Is it text, is it JSON, is it human-readable?  It is all 3 - of course - but I'm a noob.  It's only a matter of time before it clicks into place though, right?
+````
+----------------
+Post id:  10270
+----------------
+By:  [{'verified': {'is_verified': False, 'url': ''}, 'id':...
+...'name': {'last_name': 'Turner', 'display': 'bazbot3', 'first_name': 'Barrie'}}]
+
+the post's text follows on
+````
+
+It's a vast improvement over the previous (unpublished) failures.  When interacting with the 10Cv4 API using 10cbazbt3, the server feedback appeared in versions prior to 0.1.7 to be gibberish.  Lots of it.  *It's my fault entirely.*  In a nutshell, I was unable to 'translate' the responses returned from the API into anything I could use **within the application.**
 
 ---
 
