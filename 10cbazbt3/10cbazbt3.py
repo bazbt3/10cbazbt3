@@ -1,6 +1,6 @@
 # 10cbazbt3 - a menu to interact with the 10Centuries.org social network.
 # (c) Barrie Turner, 2016-03-04 onwards.
-# If you want a version number, you can have 2016-03-19(Post Earth Hour) or 0.1.7.
+# Version number: 2016-03-20(Ruby's teatime) or 0.1.8.
 
 # Routines based on the curl examples at https://docs.10centuries.org
 
@@ -208,33 +208,33 @@ def authorise():
 
 
 # Define the 'login' subroutine:
+# Getting and applying the auth token is unnecessarily long,
+# Requires less of the file i/o:
 def login():
     # Input account name:
     my_acctname = input("10C Username (account email address): ")
     # Input account password:
     my_acctpass = getpass.getpass("10C Password (is not shown onscreen): ")
-    # The login URL:
+    # Construct the login URL & data passed to the API:
     url = 'https://api.10centuries.org/auth/login'
     loginheaders = {'Content-Type': 'application/x-www-form-urlencoded'}
     data = {'client_guid': my_client_guid, 'acctname': my_acctname, 'acctpass': my_acctpass}
     response = requests.post(url, headers=loginheaders, data=data)
-    # Saves the server's response to 'loginresponse.txt':
+    # Saves the server's JSON response to 'loginresponse.txt':
     file = open("/home/pi/10cv4/loginresponse.txt", "w")
     file.write(response.text)
     file.close()
-    # Displays the server's response onscreen - *all* of it:
-    # Will be made better when I can extract data from the server responses.
-    print(response.text)
-    print("")
-    # Have the *user* parse the Authentication Token and manually enter it, here:
-    print("Please copy the Authentication Token text line - indicated by the asterisks here {\"=\"token\":\"***\"} - from above and paste it into the line below:")
-    temptoken = input("Paste it here: ")
+    # Extracts the auth token from the JSON file:
+    json_data = open("/home/pi/10cv4/loginresponse.txt", "r")
+    decoded = json.load(json_data)
+    temptoken = decoded['data']['token']
+    # Saves just the auth token to authtoken.txt:
     file = open("/home/pi/10cv4/authtoken.txt", "w")
     file.write(temptoken)
     file.close()
-    print("")
     # Re-authorise now:
     authorise()
+    print("")
     print("Re-authorised (but check for a 'connected' indicator!)")
     print("")
     setloginstatus("In")
@@ -249,11 +249,8 @@ def logout():
     file = open("/home/pi/10cv4/logoutresponse.txt", "w")
     file.write(response.text)
     file.close()
-    # Displays the server's response onscreen - *all* of it:
-    # Will be made better when I can extract data from the server responses.
-    print(response.text)
-    print("")
-    print("Done - see logoutresponse.txt.")
+    # Indicate that the user is logged out:
+    print("You are logged out.")
     print("")
     setloginstatus("Out")
 
