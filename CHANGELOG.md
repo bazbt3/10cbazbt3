@@ -10,6 +10,9 @@
 ## The Changelog:
 (Most recent on top.)
 
+### 2016-03-20: [v0.1.8 (Ruby's teatime)](https://github.com/bazbt3/10cbazbt3/commit/1851376796959ca84399cbeae7abdcfa5c7ad7ac)
+* The user can now login using only username and password.  (Auth token in API JSON response is now parsed and saved automatically - no longer requiring user to copy and paste into an input line.)
+
 ### 2016-03-19: [v0.1.7 (Post-Earth Hour)](https://github.com/bazbt3/10cbazbt3/commit/57066e4ef85c90fc741431d038047871263135c0)
 * Begun to display mentions in a conventional, more-readable format.  (Added a JSON decoder within the Mentions subroutine, but one which currently fails to properly parse the poster's display name.)
 
