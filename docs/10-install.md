@@ -42,14 +42,10 @@ Admin:
 Choice?
 ````
 
-1. Type `Login` at the prompt - uppercase and lowercase text - the full word.
-1. Type your 10Cv4 username (email address!) when prompted by `Username (email): `
-1. Type your 10Cv4 Password when prompted by `Password: `
+1. Type `Login` at the prompt - uppercase and lowercase text - the full word - and press [enter],
+1. Type your 10Cv4 username (email address!) when prompted by `Username (email): ` - and press [enter],
+1. Type your 10Cv4 Password when prompted by `Password: ` - and press [enter].
 
-Carefully check the data returned from the server and displayed onscreen.  It should contains a unique 'token' (used instead of username and password.)  If you see a `200` in the midst of the code it's working nicely.  `400`-series codes indicate a little more work to be done.  Here's a not-pretty example of a successful authentication:
-
-`{ "meta": { "code": 200 }, "data": { "token": "{A Valid Authentication Token}" } }`
-
-At this point 10cbazbt3 will ask you to copy the Authentication Token and paste it into an input line.  When that's done, 10cbazbt3 is usable.
+Read the screen.  At this point the application should have grabbed a valid authorisation token from the API, applied it for you, and indicated success.
 
 To find out how to start posting, blogging, and read about some current limitations, please read the **[Usage document.](/docs/20-usage.md)**
