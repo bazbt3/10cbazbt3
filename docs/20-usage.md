@@ -103,9 +103,7 @@ Needs concentration:
 1. Enter the account email address,
 1. Enter the account password,
 1. Read the prompt,
-1. Copy the code *as-indicated* by the prompt,
-1. Reposition the cursor on the input line, paste the clipboard contents, press [enter],
-1. Check the application is logged in again.
+1. Check the application is logged in.
 
 ---
 
