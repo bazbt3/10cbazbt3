@@ -10,6 +10,9 @@
 ## The Changelog:
 (Most recent on top.)
 
+### 2016-03-21: [v0.1.9 (Oooh!)](https://github.com/bazbt3/10cbazbt3/commit/aaa719a0b1de4f08d2b71b14e9c7bce072b1ae35)
+* Mentions subroutine now parses poster user/display name & id, adds post time.
+
 ### 2016-03-20: [v0.1.8 (Ruby's teatime)](https://github.com/bazbt3/10cbazbt3/commit/1851376796959ca84399cbeae7abdcfa5c7ad7ac)
 * The user can now login using only username and password.  (Auth token in API JSON response is now parsed and saved automatically - no longer requiring user to copy and paste into an input line.)
 
