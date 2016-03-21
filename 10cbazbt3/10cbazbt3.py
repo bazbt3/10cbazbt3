@@ -1,6 +1,6 @@
 # 10cbazbt3 - a menu to interact with the 10Centuries.org social network.
 # (c) Barrie Turner, 2016-03-04 onwards.
-# Version number: 2016-03-20(Ruby's teatime) or 0.1.8.
+# Version number: 2016-03-21(Oooh!) or 0.1.9.
 
 # Routines based on the curl examples at https://docs.10centuries.org
 
@@ -122,36 +122,39 @@ def mentions():
     file = open("/home/pi/10cv4/servermentionsresponse.txt", "w")
     file.write(response.text)
     file.close()
-
     # Displays the server's response, followed by some useful output.
-    # Old code: print(response.text)
-    # Open the 'servermentionsresponse.txt' file:
+    # Open the 'servermentionsresponse.txt' file and store contents in json_data:
     json_data = open("/home/pi/10cv4/servermentionsresponse.txt", "r")
     # Main routine to decode the data:
     # Adapted from Python 2.x stuff at http://xmodulo.com/how-to-parse-json-string-in-python.html:
     # Main decode routine within an exception handler:
+    # Needs tidying up. but works:
     try:
         decoded = json.load(json_data)
         # Pretty printing of json-formatted string:
-        # Retained whilst developing & debugging:
+        # Retained only whilst developing & debugging:
         print (json.dumps(decoded, sort_keys=True, indent=4))
         print("")
         # Extracting useful data from json-formatted string:
         mentionscount = int(mentionscount)
         print("")
-        print("----------------")
-        for i in range(mentionscount):
-            # Prints post id:
-            print ("Post id: ", decoded['data'][i]['id'])
-            print("----------------")
-            # Prints *all* of the poster's data:
-            # Needs work to extract the data from this:
-            print("By: ", decoded['data'][i]['account'])
-            print("")
-            # Prints the post test:
+        print("-----------")
+        # Loops over the number of posts from mentionscount - saves nothing:
+        # will fail if mentionscount > the actual number of mentions:
+        for i in reversed(range(mentionscount)):
+            # Parses the post id:
+            postid = decoded['data'][i]['id']
+            posttime = decoded['data'][i]['created_at']
+            # Parses the poster's username & id:
+            posterusername = decoded['data'][i]['account'][0]['username']
+            posteruserid = decoded['data'][i]['account'][0]['id']
+            # Prints the post id and poster's username & id:
+            print("Post " + str(postid) + ", by " + posterusername + " (id: " + str(posteruserid) + "),"  + " at " + posttime)
+            print("-----------")
+            # Prints the post text:
             print (decoded['data'][i]['content']['text'])
             print("")
-            print("----------------")
+            print("-----------")
     # Exception handler ends here:
     except (ValueError, KeyError, TypeError):
         print ("JSON format error")
