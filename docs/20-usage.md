@@ -48,22 +48,21 @@ Important: Please read through the code comments.  The code is currently tailore
 Somewhat hard to work with:
 
 1. Type `m`, press [enter]
-1. Enter the number of mentions you wish to display,
+1. Enter the number of mentions you wish to display, press [enter],
 1. Read the screen.
 
-A mention *display* is currently made up of 4 sections: the pretty-printed JSON from the API followed by a list of posts.  Each post contains the post ID, poster data, and the post text.  I must still format the poster id data but the example below shows the poster's display name on the last line of the data 'block.'
+A mention *display* is currently made up of 2 sections: the pretty-printed JSON from the API followed by a list of posts = oldest at the top.  Each post contains the post ID, poster data, the time posted and the post text.
+
+Here's a typical post:
 
 ````
-----------------
-Post id:  10270
-----------------
-By:  [{'verified': {'is_verified': False, 'url': ''}, 'id':...
-...'name': {'last_name': 'Turner', 'display': 'bazbot3', 'first_name': 'Barrie'}}]
-
-the post's text follows on
+-----------
+Post 12421, by matigo (id: 1), at 2016-03-21T02:00:44Z
+-----------
+I get the impression that @bazbt3 does not want to say certain words around his kids when talking about the wonderful diversity of life … :P
 ````
 
-It's a vast improvement over the previous (unpublished) failures.  When interacting with the 10Cv4 API using 10cbazbt3, the server feedback appeared in versions prior to 0.1.7 to be gibberish.  Lots of it.  *It's my fault entirely.*  In a nutshell, I was unable to 'translate' the responses returned from the API into anything I could use **within the application.**
+Right now there is no database behind this, nor any means of paging through a list of mentions.  Please scroll!
 
 ---
 
