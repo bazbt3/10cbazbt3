@@ -29,16 +29,19 @@ This menu (or something similar) should appear at this point:
 10cbazbt3 menu:
   b = Blurb (social post)
   p = Post (blog post)
-  m = Mentions
   r = Reply
+  m = get Mentions
+  t = get home Timeline
 
-  exit = Exit
+  menu = redisplay Menu
 
 Admin:
   sites =  Sites owned by user
-  Login =  Login (deletes current auth token!)
-  Logout = Logout (deletes current auth token!)
+  Login =  Login
+  Logout = Logout
+  exit =   Exit
 
+Connected.
 Choice?
 ````
 
