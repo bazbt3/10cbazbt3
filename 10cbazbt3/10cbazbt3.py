@@ -1,6 +1,6 @@
 # 10cbazbt3 - a menu to interact with the 10Centuries.org social network.
 # (c) Barrie Turner, 2016-03-04 onwards.
-# Version number: 2016-03-21(Oooh!) or 0.1.9.
+# Version number: 2016-03-24(Pretty colours!) or 0.2.0.
 
 # Routines based on the curl examples at https://docs.10centuries.org
 
@@ -8,10 +8,9 @@
 # Python 3 (this simply will not work in Python 2; not even the menu!)
 
 # Important:
-# Created & tested only on a Raspberry Pi 2 B running Raspbian Linux,
+# Tested only on a Raspberry Pi 2 B running Raspbian Linux,
 # Created using Python 3 (IDLE).
 # All this application's data files are currently stored in '/home/pi/10cv4/',
-# APPLICATION DOESN'T YET PARSE JSON WELL; OUTPUT IS ALMOST HUMAN-READABLE!
 
 
 # SETUP:
@@ -22,14 +21,21 @@ import requests
 import json
 # Load system-specific library:
 import sys
+# Load Linux OS library:
+import os
 # Load time-related library stuff (there may be duplication here):
 from time import strftime
 import calendar
 from datetime import datetime
 # Load password library:
 import getpass
+# Load easy colour terminal text:
+from colorama import init
+init()
+from colorama import Fore, Back, Style
 
-# Define a global login status indicator:
+
+# Define a global login status indicator variable:
 global loginstatus
 
 
@@ -40,20 +46,23 @@ def menu():
     print("10cbazbt3 menu:")
     print("  b = Blurb (social post)")
     print("  p = Post (blog post)")
-    print("  m = get Mentions")
     print("  r = Reply")
+    print("  m = get Mentions")
+    print("  t = get home Timeline")
     print("")
     print("  menu = redisplay Menu")
-    print("  exit = Exit")
     print("")
     print("Admin:")
     print("  sites =  Sites owned by user")
-    print("  Login =  Login (deletes current auth token!)")
-    print("  Logout = Logout (deletes current auth token!)")
+    print("  Login =  Login")
+    print("  Logout = Logout")
+    print("  exit =   Exit")
     print("")
 
 
-# DEFINE 10C INTERACTIONS:
+# DEFINE 10C POST INTERACTIONS:
+
+# LOTS OF DUPLICATION HERE!
 
 # Define the 'blurb' (social post) subroutine:
 def blurb():
@@ -108,64 +117,9 @@ def post():
     print("")
 
 
-# Define the 'mentions' subroutine:
-def mentions():
-    # How many mentions posts to retrieve?
-    mentionscount = input("How many mentions: ")
-    mentionscount = str(mentionscount)
-    # Uses the global header & creates the data to be passed to the url:
-    # Note: only appending mentionscount to the URL works, i.e. fails passed as data.
-    url = 'https://api.10centuries.org/content/blurbs/mentions?count=' + mentionscount
-    data = {'count': mentionscount}
-    response = requests.get(url, headers=headers, data=data)
-    # Saves the server's response to 'serverresponse.txt':
-    file = open("/home/pi/10cv4/servermentionsresponse.txt", "w")
-    file.write(response.text)
-    file.close()
-    # Displays the server's response, followed by some useful output.
-    # Open the 'servermentionsresponse.txt' file and store contents in json_data:
-    json_data = open("/home/pi/10cv4/servermentionsresponse.txt", "r")
-    # Main routine to decode the data:
-    # Adapted from Python 2.x stuff at http://xmodulo.com/how-to-parse-json-string-in-python.html:
-    # Main decode routine within an exception handler:
-    # Needs tidying up. but works:
-    try:
-        decoded = json.load(json_data)
-        # Pretty printing of json-formatted string:
-        # Retained only whilst developing & debugging:
-        print (json.dumps(decoded, sort_keys=True, indent=4))
-        print("")
-        # Extracting useful data from json-formatted string:
-        mentionscount = int(mentionscount)
-        print("")
-        print("-----------")
-        # Loops over the number of posts from mentionscount - saves nothing:
-        # will fail if mentionscount > the actual number of mentions:
-        for i in reversed(range(mentionscount)):
-            # Parses the post id:
-            postid = decoded['data'][i]['id']
-            posttime = decoded['data'][i]['created_at']
-            # Parses the poster's username & id:
-            posterusername = decoded['data'][i]['account'][0]['username']
-            posteruserid = decoded['data'][i]['account'][0]['id']
-            # Prints the post id and poster's username & id:
-            print("Post " + str(postid) + ", by " + posterusername + " (id: " + str(posteruserid) + "),"  + " at " + posttime)
-            print("-----------")
-            # Prints the post text:
-            print (decoded['data'][i]['content']['text'])
-            print("")
-            print("-----------")
-    # Exception handler ends here:
-    except (ValueError, KeyError, TypeError):
-        print ("JSON format error")
-    # Reminder of the unformatted file location, for the curious:
-    print("")
-    print("Done - see servermentionsresponse.txt.")
-    print("")
-
-
 # Define the 'reply' subroutine:
 def reply():
+    # INEFFICIENT: NEED TO MERGE MOST OF THE CODE FROM THIS AND THE REPLYINLINE SUBROUTINE:
     # Input a reply-to post number:
     replytoid = input("Post number to reply to: ")
     # Input some text:
@@ -189,6 +143,166 @@ def reply():
     elif responsestatus != 200:
         print("Something went wrong. Are you logged in?")
     print("")
+
+
+# Define the 'replyinline' subroutine:
+# INEFFICIENT: SEE THE REPLY SUBROUTINE:
+def replyinline(postidreply):
+    # Use current 'postid' a reply-to post number:
+    replytoid = postidreply
+    # Input some text:
+    posttext = input("Write some text: ")
+    # Saves the input text to 'posttext.txt':
+    file = open("/home/pi/10cv4/posttext.txt", "w")
+    file.write(posttext)
+    file.close()
+    # Uses the global header & creates the data to be passed to the url:
+    url = 'https://api.10centuries.org/content'
+    data = {'reply_to': replytoid, 'content': posttext}
+    response = requests.post(url, headers=headers, data=data)
+    # Saves the server's response to 'serverresponse.txt':
+    file = open("/home/pi/10cv4/serverresponse.txt", "w")
+    file.write(response.text)
+    file.close()
+    # Displays the server's response:
+    responsestatus = response.status_code
+    if responsestatus == 200:
+        print("Ok.")
+    elif responsestatus != 200:
+        print("Something went wrong. Are you logged in?")
+    print("")
+
+
+# Define the 'inlineinteractions' subroutine:
+# Called during the display of timeline posts:
+def inlineinteractions(postid):
+    # Accepts all keys. Initial setup: [enter] moves to the next post, 'r' replies:
+    postidreply = postid
+    inlinecommand = input("")
+    if inlinecommand == "r":
+        replyinline(postidreply)
+
+
+# DEFINE 10C GET TIMELINE SUBROUTINES:
+
+# Define the 'mentions' subroutine:
+# Needs to be made more modular - and used as the basis for other timeline subroutines:
+def mentions():
+    # How many mentions posts to retrieve?
+    postcount = input("How many posts: ")
+    postcount = str(postcount)
+    # Uses the global header & creates the data to be passed to the url:
+    # Note: only appending postcount to the URL works, i.e. fails passed as data.
+    url = 'https://api.10centuries.org/content/blurbs/mentions?count=' + postcount
+    data = {'count': postcount}
+    response = requests.get(url, headers=headers, data=data)
+    # Saves the server's response to 'serverresponse.txt':
+    file = open("/home/pi/10cv4/servermentionsresponse.txt", "w")
+    file.write(response.text)
+    file.close()
+    # Displays the server's response, followed by some useful output.
+    # Open the 'servermentionsresponse.txt' file and store contents in json_data:
+    json_data = open("/home/pi/10cv4/servermentionsresponse.txt", "r")
+    # Main routine to decode the data:
+    # Adapted from Python 2.x stuff at http://xmodulo.com/how-to-parse-json-string-in-python.html:
+    # Main decode routine within an exception handler:
+    # Needs tidying up. but works:
+    try:
+        decoded = json.load(json_data)
+        # Pretty printing of json-formatted string:
+        # Uncomment the next 2 lines whilst developing & debugging:
+        # print (json.dumps(decoded, sort_keys=True, indent=4))
+        # print("")
+        # Extracting useful data from json-formatted string:
+        postcount = int(postcount)
+        # Using colour from colorama: https://pypi.python.org/pypi/colorama
+        # Formatting e.g.: Fore.COLOUR, Back.COLOUR, Style.DIM with e.g. DIM, RED, CYAN, etc.:
+        print(Fore.YELLOW + "-----------")
+        print("[enter]: next post, [r]+[enter]: reply..." + Style.RESET_ALL)
+        print("")
+        # Loops over the number of posts from postcount - saves nothing:
+        # will fail if postcount > the actual number of mentions:
+        for i in reversed(range(postcount)):
+            # Parses the post id:
+            postid = decoded['data'][i]['id']
+            posttime = decoded['data'][i]['created_at']
+            # Parses the poster's username & id:
+            posterusername = decoded['data'][i]['account'][0]['username']
+            posteruserid = decoded['data'][i]['account'][0]['id']
+            # Prints the post id and poster's username & id:
+            print(Fore.CYAN + str(postid) + Fore.GREEN + " @" + posterusername + " (id:" + str(posteruserid) + ") " + Style.DIM + Fore.BLUE + posttime + Style.RESET_ALL)
+            # Prints the post text:
+            print(decoded['data'][i]['content']['text'])
+            # Sends 'postid' to the 'inlineinteraction' subroutine,
+            # Where [enter] moves to the next post,
+            # Other commands are planned:
+            inlineinteractions(postid)
+    # Exception handler ends here:
+    except (ValueError, KeyError, TypeError):
+        print ("JSON format error")
+    # Mentions timeline up-to-date:
+    print(Fore.YELLOW + "Up-to-date.")
+    print("-----------" + Style.RESET_ALL)
+
+
+# Define the 'hometimeline' subroutine:
+# THIS IS A NEAR-COPY OF 'MENTIONS' BUT WITH THE HOME TIMELINE URL SUBSTITUTED:
+def hometimeline():
+    # How many mentions posts to retrieve?
+    postcount = input("How many posts: ")
+    postcount = str(postcount)
+    # Uses the global header & creates the data to be passed to the url:
+    # IMPORTANT: VARIES FROM 'MENTIONS'; THE URL WORKS WITH 'POSTCOUNT' AS DATA:
+    url = 'https://api.10centuries.org/content/blurbs/home'
+    data = {'count': postcount}
+    response = requests.get(url, headers=headers, data=data)
+    # Saves the server's response to 'serverhometimelineresponse.txt':
+    file = open("/home/pi/10cv4/serverhometimelineresponse.txt", "w")
+    file.write(response.text)
+    file.close()
+    # Displays the server's response, followed by some useful output.
+    # Open the 'servermentionsresponse.txt' file and store contents in json_data:
+    json_data = open("/home/pi/10cv4/serverhometimelineresponse.txt", "r")
+    # Main routine to decode the data:
+    # Adapted from Python 2.x stuff at http://xmodulo.com/how-to-parse-json-string-in-python.html:
+    # Main decode routine within an exception handler:
+    # Needs tidying up. but works:
+    try:
+        decoded = json.load(json_data)
+        # Pretty printing of json-formatted string:
+        # Uncomment the next 2 lines whilst developing & debugging:
+        # print (json.dumps(decoded, sort_keys=True, indent=4))
+        # print("")
+        # Extracting useful data from json-formatted string:
+        postcount = int(postcount)
+        # Using colour from colorama: https://pypi.python.org/pypi/colorama
+        # Formatting e.g.: Fore.COLOUR, Back.COLOUR, Style.DIM with e.g. DIM, RED, CYAN, etc.:
+        print(Fore.YELLOW + "-----------")
+        print("[enter]: next post, [r]+[enter]: reply..." + Style.RESET_ALL)
+        print("")
+        # Loops over the number of posts from postcount - saves nothing:
+        # will fail if postcount > the actual number of mentions:
+        for i in reversed(range(postcount)):
+            # Parses the post id:
+            postid = decoded['data'][i]['id']
+            posttime = decoded['data'][i]['created_at']
+            # Parses the poster's username & id:
+            posterusername = decoded['data'][i]['account'][0]['username']
+            posteruserid = decoded['data'][i]['account'][0]['id']
+            # Prints the post id and poster's username & id:
+            print(Fore.CYAN + str(postid) + Fore.GREEN + " @" + posterusername + " (id:" + str(posteruserid) + ") " + Style.DIM + Fore.BLUE + posttime + Style.RESET_ALL)
+            # Prints the post text:
+            print(decoded['data'][i]['content']['text'])
+            # Sends 'postid' to the 'inlineinteraction' subroutine,
+            # Where [enter] moves to the next post,
+            # Other commands are planned:
+            inlineinteractions(postid)
+    # Exception handler ends here:
+    except (ValueError, KeyError, TypeError):
+        print ("JSON format error")
+    # Mentions timeline up-to-date:
+    print(Fore.YELLOW + "Up-to-date.")
+    print("-----------" + Style.RESET_ALL)
 
 
 # DEFINE 10C ADMIN SUBROUTINES:
@@ -321,12 +435,15 @@ def gettime():
 # And must be added by hand!
 myclientguidfile = open("/home/pi/10cv4/10cv4guid.txt", "r")
 my_client_guid = myclientguidfile.read()
-# Use the Authentication Token (now handled by 'authorise' subroutine):
+# Use the Authentication Token in the 'authorise' subroutine:
 authorise()
 
 # MENU STARTS:
 
 # Prints the menu text:
+# Linux/OS X clear screen:
+# For Windows use: os.system('cls'):
+os.system('clear')
 menu()
 # The menu has no input validation outside valid options:
 choice = "Little Bobby Tables"
@@ -338,10 +455,12 @@ while choice != 'exit':
         blurb()
     elif choice == 'p':
         post()
-    elif choice == 'm':
-        mentions()
     elif choice == 'r':
         reply()
+    elif choice == 'm':
+        mentions()
+    elif choice == 't':
+        hometimeline()
     elif choice == 'menu':
         menu()
     elif choice == 'sites':
@@ -353,3 +472,4 @@ while choice != 'exit':
 # The menu exits here once 'exit' is typed:
 print("")
 print("You chose 'exit': Goodbye!")
+print("")
