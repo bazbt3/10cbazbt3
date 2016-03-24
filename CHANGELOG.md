@@ -10,6 +10,16 @@
 ## The Changelog:
 (Most recent on top.)
 
+### 2016-03-24: [v0.2.0 (Pretty colours!)](https://github.com/bazbt3/10cbazbt3/commit/558a3549158642343a50158e280f8b1e1687b758)
+* Improved: Mentions display,
+* Added: Timeline display,
+* Added colour within Mentions & Timeline to enhance clarity and reduce the vertical space used for each post,
+* Added: [enter] steps through posts one-at-a-time,
+* Added: [r]+[enter] adds inline reply in both Mentions and Timeline display,
+* Re-ordered the main menu,
+* Version numbers bumped to 0.2.x now timeline-related stuff is working well.  10cbazbt3 is no longer a post-only client!
+* (It looks like v0.1.x won't go to 11!)
+
 ### 2016-03-21: [v0.1.9 (Oooh!)](https://github.com/bazbt3/10cbazbt3/commit/aaa719a0b1de4f08d2b71b14e9c7bce072b1ae35)
 * Mentions subroutine now parses poster user/display name & id, adds post time.
 
