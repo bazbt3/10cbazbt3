@@ -5,17 +5,20 @@
 10cbazbt3 menu:
   b = Blurb (social post)
   p = Post (blog post)
-  m = Mentions
   r = Reply
+  m = get Mentions
+  t = get home Timeline
 
-  exit = Exit
+  menu = redisplay Menu
 
 Admin:
   sites =  Sites owned by user
-  Login =  Login (deletes current auth token!)
-  Logout = Logout (deletes current auth token!)
+  Login =  Login
+  Logout = Logout
+  exit =   Exit
 
-Choice?
+Connected.
+Choice? 
 ````
 
 Self-explanatory, right?  No, not yet.
@@ -44,28 +47,6 @@ Important: Please read through the code comments.  The code is currently tailore
 
 ---
 
-### `m = Mentions`:
-Somewhat hard to work with:
-
-1. Type `m`, press [enter]
-1. Enter the number of mentions you wish to display, press [enter],
-1. Read the screen.
-
-A mention *display* is currently made up of 2 sections: the pretty-printed JSON from the API followed by a list of posts = oldest at the top.  Each post contains the post ID, poster data, the time posted and the post text.
-
-Here's a typical post:
-
-````
------------
-Post 12421, by matigo (id: 1), at 2016-03-21T02:00:44Z
------------
-I get the impression that @bazbt3 does not want to say certain words around his kids when talking about the wonderful diversity of life … :P
-````
-
-Right now there is no database behind this, nor any means of paging through a list of mentions.  Please scroll!
-
----
-
 ### `r = Reply`:
 Reply comes after 'mentions' here for 2 reasons:
 
@@ -79,10 +60,85 @@ Reply comes after 'mentions' here for 2 reasons:
 
 ---
 
-### `exit = Exit`:
-Easy.
+### `m = get Mentions`:
+Relatively easy to work with:
 
-1. Type `exit`, press [enter], the application ends.
+1. Type `m`, press [enter]
+1. Enter the number of mentions you wish to display, press [enter],
+1. Read the screen.
+
+A mention *display* is a list of posts, the oldest at the top.  Each post contains the post ID, poster data, the time posted and the post text.  Now in colour.
+
+Typing [enter] advances to the next post, `r` + [enter] replies to the post above the cursor using a slightly-modified version of the main 'reply' routine.
+
+Here's a typical mention:
+
+````
+Choice? m
+
+How many posts: 1
+-----------
+[enter]: next post, [r]+[enter]: reply...
+````
+
+`13240` **`@streakmachine`** *`(id:14) 2016-03-24T20:22:17Z`*    
+**`@bazbt3 Code away! I'm typing away on a number of different things here myself. :D`**
+
+````
+Up-to-date.
+-----------
+Connected.
+Choice?
+````
+
+Right now there is no database behind this.
+
+---
+
+### `t = get home Timeline`:
+Relatively easy to work with:
+
+1. Type `t`, press [enter]
+1. Enter the number of posts you wish to display, press [enter],
+1. Read the screen.
+
+A timeline *display* is a list of posts, the oldest at the top.  Each post contains the post ID, poster data, the time posted and the post text.  Now in colour.
+
+Typing [enter] advances to the next post, `r` + [enter] replies to the post above the cursor using a slightly-modified version of the main 'reply' routine.
+
+Here's a typical timeline:
+
+````
+Choice? t
+
+How many posts: 2
+-----------
+[enter]: next post, [r]+[enter]: reply...
+````
+
+`13240` **`@streakmachine (id:14)`** *`2016-03-24T20:22:17Z`*
+**`@bazbt3 Code away! I'm typing away on a number of different things here myself. :D`**
+
+`13244` **`@jextxadore (id:20)`** *`2016-03-24T20:40:06Z`*
+**`Typing up my notes from today's absolutely magnificent tasting.`**
+
+**`The scores I gave to Château Palmer's 2007 and their Alter Ego 2010 are identical to Robert Parker's. Actually, a lot of my scores are unsettlingly similar to his. Freaky.`**
+
+````
+Up-to-date.
+-----------
+Connected.
+Choice?
+````
+
+Right now there is no database behind this.
+
+---
+
+### `menu = redisplay Menu`
+The menu is displayed once when the application starts, can be invoked when not within a post display routine.
+
+1. Type `menu`: it reddisplays the menu.
 
 ---
 
@@ -111,6 +167,13 @@ Easy:
 
 1. Type `Logout`.
 1. Check that the application has logged out.
+
+---
+
+### `exit = Exit`:
+Easy.
+
+1. Type `exit`, press [enter], the application ends.
 
 ---
 
