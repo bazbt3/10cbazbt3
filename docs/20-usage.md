@@ -120,8 +120,7 @@ How many posts: 2
 **`@bazbt3 Code away! I'm typing away on a number of different things here myself. :D`**
 
 `13244` **`@jextxadore (id:20)`** *`2016-03-24T20:40:06Z`*
-**`Typing up my notes from today's absolutely magnificent tasting.`**
-
+**`Typing up my notes from today's absolutely magnificent tasting.`**    
 **`The scores I gave to Château Palmer's 2007 and their Alter Ego 2010 are identical to Robert Parker's. Actually, a lot of my scores are unsettlingly similar to his. Freaky.`**
 
 ````
@@ -138,7 +137,7 @@ Right now there is no database behind this.
 ### `menu = redisplay Menu`
 The menu is displayed once when the application starts, can be invoked when not within a post display routine.
 
-1. Type `menu`: it reddisplays the menu.
+1. Type `menu`: it redisplays the menu.
 
 ---
 
