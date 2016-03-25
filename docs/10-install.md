@@ -25,30 +25,14 @@ Either:
 
 This menu (or something similar) should appear at this point:
 
-````
-10cbazbt3 menu:
-  b = Blurb (social post)
-  p = Post (blog post)
-  r = Reply
-  m = get Mentions
-  t = get home Timeline
-
-  menu = redisplay Menu
-
-Admin:
-  sites =  Sites owned by user
-  Login =  Login
-  Logout = Logout
-  exit =   Exit
-
-Connected.
-Choice?
-````
+![screenshot](/images/10cbazbt3_login.PNG)
 
 1. Type `Login` at the prompt - uppercase and lowercase text - the full word - and press [enter],
 1. Type your 10Cv4 username (email address!) when prompted by `Username (email): ` - and press [enter],
 1. Type your 10Cv4 Password when prompted by `Password: ` - and press [enter].
 
-Read the screen.  At this point the application should have grabbed a valid authorisation token from the API, applied it for you, and indicated success.
+Read the screen.  At this point the application should have grabbed a valid authorisation token from the API, applied it for you, and indicated success:
+
+![screenshot](/images/10cbazbt3_login_success.PNG)
 
 To find out how to start posting, blogging, and read about some current limitations, please read the **[Usage document.](/docs/20-usage.md)**
