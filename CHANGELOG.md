@@ -10,6 +10,10 @@
 ## The Changelog:
 (Most recent on top.)
 
+### 2016-03-25: [v0.2.2 (Status symbols)](https://github.com/bazbt3/10cbazbt3/commit/46172710faa7a0628bde98901e9e8cec8c7ec26c)
+* Added status symbols for a client user mention; for starred, pinned, reblurbed posts; and added the name of the client used to post,
+* Spent time making the mention and timeline routines modular by splitting out the common code into a 'timelinebase' routine, hopefully a usable base for when the timeline isn't restricted to a user-chosen *number* of posts.
+
 ### 2016-03-25: [v0.2.1 (Slimming)](https://github.com/bazbt3/10cbazbt3/commit/a836354958200ef3a43382e25b479b2f532599d9)
 * Improved inline reply - automatically adds poster username (good timing @33MHz!)  Need to add 'cc' usernames later,
 * Added inline repost - uses API version, but I've left my own code in there for now (it's called 'bazrepostinline'),
