@@ -48,10 +48,7 @@ Important: Please read through the code comments.  The code is currently tailore
 ---
 
 ### `r = Reply`:
-Reply comes after 'mentions' here for 2 reasons:
-
-* Mentions is *very* incomplete.  It now returns a post id, unformatted poster id, and the post text.
-* The 10C site Blurbs screen currently has an anchor with each post - hovering over it gives a post number.  Use that until this application works!
+Needs a post number to reply to:
 
 1. Type `r`, press [enter],
 1. Read the prompt,
@@ -81,7 +78,7 @@ How many posts: 1
 [enter]: next post, [r]+[enter]: reply...
 ````
 
-`13240` **`@streakmachine`** *`(id:14) 2016-03-24T20:22:17Z`*    
+`13240` **`@streakmachine (id:14)`** *`2016-03-24T20:22:17Z`*    
 **`@bazbt3 Code away! I'm typing away on a number of different things here myself. :D`**
 
 ````
@@ -150,8 +147,8 @@ Occasionally useful:
 
 ---
 
-### `Login =  Login (deletes current auth token!)`:
-Needs concentration:
+### `Login =  Login`:
+Relatively easy:
 
 1. Type `Login`,
 1. Enter the account email address,
@@ -161,7 +158,7 @@ Needs concentration:
 
 ---
 
-### `Logout = Logout (deletes current auth token!)`
+### `Logout = Logout`
 Easy:
 
 1. Type `Logout`.
