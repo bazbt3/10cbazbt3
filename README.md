@@ -1,27 +1,8 @@
 # What is '10cbazbt3'?
 A Python 3 application to interact with the social, blogging and podcasting site [10Centuries.org](http://10centuries.org).  My work here is starting to cover the basics, moving nicely.
 
-## A recent 'screenshot':
-````
-10cbazbt3 menu:
-  b = Blurb (social post)
-  p = Post (blog post)
-  r = Reply
-  m = get Mentions
-  t = get home Timeline
-
-  menu = redisplay Menu
-
-Admin:
-  sites =  Sites owned by user
-  Login =  Login
-  Logout = Logout
-  exit =   Exit
-
-Connected.
-Choice? 
-
-````
+## A recent screenshot:
+[![screenshot](/images/10cbazbt3_login_success.PNG)](/images/10cbazbt3_login_success.PNG)
 
 ## What's needed to make this work?
 Python 3 and a [10Centuries.org](http://10centuries.org) account.  (I'm new to Python so don't know how much work would be necessary to convert this to Python 2.x.)
