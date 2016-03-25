@@ -1,6 +1,6 @@
 # 10cbazbt3 - a menu to interact with the 10Centuries.org social network.
 # (c) Barrie Turner, 2016-03-04 onwards.
-# Version number: 2016-03-25(Slimming) or 0.2.1.
+# Version number: 2016-03-25(Status symbols) or 0.2.2.
 
 # Routines based on the curl examples at https://docs.10centuries.org
 
@@ -212,17 +212,10 @@ def inlineinteractions(postid, posterusername, decodedposttext):
 
 # DEFINE 10C GET TIMELINE SUBROUTINES:
 
-# Define the 'mentions' subroutine:
-# Needs to be made more modular - and used as the basis for other timeline subroutines:
-def mentions():
-    # How many mentions posts to retrieve?
-    postcount = input("How many posts: ")
-    postcount = str(postcount)
-    # Uses the global header & creates the data to be passed to the url:
-    # Note: only appending postcount to the URL works, i.e. fails passed as data.
-    url = 'https://api.10centuries.org/content/blurbs/mentions?count=' + postcount
-    data = {'count': postcount}
-    response = requests.get(url, headers=headers, data=data)
+# Define the 'timelinebase' subroutine:
+def timelinebase(passedresponse, passedpostcount):
+    response = passedresponse
+    postcount = passedpostcount
     # Saves the server's response to 'serverresponse.txt':
     file = open("/home/pi/10cv4/servermentionsresponse.txt", "w")
     file.write(response.text)
@@ -250,15 +243,36 @@ def mentions():
         # Loops over the number of posts from postcount - saves nothing:
         # will fail if postcount > the actual number of mentions:
         for i in reversed(range(postcount)):
+            # Builds the post metadata:
             # Parses the post id:
             postid = decoded['data'][i]['id']
+            # Parses the post creation data & time:
             posttime = decoded['data'][i]['created_at']
             # Parses the poster's username & id:
             posterusername = decoded['data'][i]['account'][0]['username']
             posteruserid = decoded['data'][i]['account'][0]['id']
-            # Prints the post id and poster's username & id:
-            print(Fore.CYAN + str(postid) + Fore.GREEN + " @" + posterusername + " (id:" + str(posteruserid) + ") " + Fore.CYAN + Style.DIM + posttime + Style.RESET_ALL)
-            # Prints the post text:
+            # Parses and stores 'is_mention', 'you_starred', 'you_pinned' and 'you_reblurbed':
+            ismention = decoded['data'][i]['is_mention']
+            youstarred = decoded['data'][i]['you_starred']
+            youpinned = decoded['data'][i]['you_pinned']
+            youreblurbed = decoded['data'][i]['you_reblurbed']
+            clientname = decoded['data'][i]['client']['name']
+            # Builds ancillary metadata from above:
+            statusstring = ""
+            if youstarred != False:
+                statusstring = statusstring + " *"
+            if youpinned != False:
+                statusstring = statusstring + " pin"
+            if youreblurbed != False:
+                statusstring = statusstring + " rb"
+            statusstring = statusstring + " [" + clientname + "]"
+            # Builds the post id, poster's username & id, date & time posted & the above items of metadata:
+            # Displays the text header:
+            if ismention != False:
+                print(Fore.BLACK + Back.CYAN + str(postid) + Fore.GREEN + Back.BLACK + " @" + posterusername + " (id:" + str(posteruserid) + ") " + Fore.CYAN + Style.DIM + posttime + statusstring + Style.RESET_ALL)
+            else:
+                print(Fore.CYAN + str(postid) + Fore.GREEN + Back.BLACK + " @" + posterusername + " (id:" + str(posteruserid) + ") " + Fore.CYAN + Style.DIM + posttime + statusstring + Style.RESET_ALL)
+            # Displays the post text:
             decodedposttext = decoded['data'][i]['content']['text']
             print(decodedposttext)
             # Sends 'postid' to the 'inlineinteraction' subroutine,
@@ -274,66 +288,31 @@ def mentions():
     print("-----------" + Style.RESET_ALL)
 
 
+# Define the 'mentions' subroutine:
+def mentions():
+    # How many mentions posts to retrieve?
+    postcount = input("How many posts: ")
+    postcount = str(postcount)
+    # Uses the global header & creates the data to be passed to the url:
+    # Note: only appending postcount to the URL works, i.e. fails passed as data.
+    url = 'https://api.10centuries.org/content/blurbs/mentions?count=' + postcount
+    data = {'count': postcount}
+    response = requests.get(url, headers=headers, data=data)
+    # Pass the API response to 'timelinebase':
+    timelinebase(response, postcount)
+
+
 # Define the 'hometimeline' subroutine:
-# THIS IS A NEAR-COPY OF 'MENTIONS' BUT WITH THE HOME TIMELINE URL SUBSTITUTED:
 def hometimeline():
     # How many mentions posts to retrieve?
     postcount = input("How many posts: ")
     postcount = str(postcount)
     # Uses the global header & creates the data to be passed to the url:
-    # IMPORTANT: VARIES FROM 'MENTIONS'; THE URL WORKS WITH 'POSTCOUNT' AS DATA:
     url = 'https://api.10centuries.org/content/blurbs/home'
     data = {'count': postcount}
     response = requests.get(url, headers=headers, data=data)
-    # Saves the server's response to 'serverhometimelineresponse.txt':
-    file = open("/home/pi/10cv4/serverhometimelineresponse.txt", "w")
-    file.write(response.text)
-    file.close()
-    # Displays the server's response, followed by some useful output.
-    # Open the 'servermentionsresponse.txt' file and store contents in json_data:
-    json_data = open("/home/pi/10cv4/serverhometimelineresponse.txt", "r")
-    # Main routine to decode the data:
-    # Adapted from Python 2.x stuff at http://xmodulo.com/how-to-parse-json-string-in-python.html:
-    # Main decode routine within an exception handler:
-    # Needs tidying up. but works:
-    try:
-        decoded = json.load(json_data)
-        # Pretty printing of json-formatted string:
-        # Uncomment the next 2 lines whilst developing & debugging:
-        # print (json.dumps(decoded, sort_keys=True, indent=4))
-        # print("")
-        # Extracting useful data from json-formatted string:
-        postcount = int(postcount)
-        # Using colour from colorama: https://pypi.python.org/pypi/colorama
-        # Formatting e.g.: Fore.COLOUR, Back.COLOUR, Style.DIM with e.g. DIM, RED, CYAN, etc.:
-        print(Fore.YELLOW + Style.DIM + "-----------")
-        print("[enter]:next post, [r]+[enter]:reply, [rp]+[enter]:repost, [*]+[enter]:star..." + Style.RESET_ALL)
-        print("")
-        # Loops over the number of posts from postcount - saves nothing:
-        # will fail if postcount > the actual number of mentions:
-        for i in reversed(range(postcount)):
-            # Parses the post id:
-            postid = decoded['data'][i]['id']
-            posttime = decoded['data'][i]['created_at']
-            # Parses the poster's username & id:
-            posterusername = decoded['data'][i]['account'][0]['username']
-            posteruserid = decoded['data'][i]['account'][0]['id']
-            # Prints the post id and poster's username & id:
-            print(Fore.CYAN + str(postid) + Fore.GREEN + " @" + posterusername + " (id:" + str(posteruserid) + ") " + Fore.CYAN + Style.DIM + posttime + Style.RESET_ALL)
-            # Prints the post text:
-            decodedposttext = decoded['data'][i]['content']['text']
-            print(decodedposttext)
-            # Sends 'postid' to the 'inlineinteraction' subroutine,
-            # Where [enter] moves to the next post,
-            # Other commands are planned:
-            inlineinteractions(postid, posterusername, decodedposttext)
-    # Exception handler ends here:
-    except (ValueError, KeyError, TypeError):
-        print ("JSON format error")
-    # Mentions timeline up-to-date:
-    print("")
-    print(Fore.YELLOW + Style.DIM + "Up-to-date.")
-    print("-----------" + Style.RESET_ALL)
+    # Pass the API response to 'timelinebase':
+    timelinebase(response, postcount)
 
 
 # DEFINE 10C ADMIN SUBROUTINES:
