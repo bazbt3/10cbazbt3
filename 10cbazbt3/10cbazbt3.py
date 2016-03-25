@@ -1,6 +1,6 @@
 # 10cbazbt3 - a menu to interact with the 10Centuries.org social network.
 # (c) Barrie Turner, 2016-03-04 onwards.
-# Version number: 2016-03-24(Pretty colours!) or 0.2.0.
+# Version number: 2016-03-25(Slimming) or 0.2.1.
 
 # Routines based on the curl examples at https://docs.10centuries.org
 
@@ -35,8 +35,9 @@ init()
 from colorama import Fore, Back, Style
 
 
-# Define a global login status indicator variable:
-global loginstatus
+# Define global variables:
+global loginstatus    # Stores login status indicator
+global responsestatus # Stores API response after POST routine
 
 
 # DEFINE SUBROUTINES:
@@ -44,11 +45,11 @@ global loginstatus
 # Define 'menu' subroutine:
 def menu():
     print("10cbazbt3 menu:")
-    print("  b = Blurb (social post)")
-    print("  p = Post (blog post)")
-    print("  r = Reply")
-    print("  m = get Mentions")
-    print("  t = get home Timeline")
+    print("  b  = Blurb (social post)")
+    print("  p  = Post (blog post)")
+    print("  r  = Reply")
+    print("  m  = get Mentions (+ reply, repost, star)")
+    print("  t  = get Timeline (+ reply, repost, star)")
     print("")
     print("  menu = redisplay Menu")
     print("")
@@ -76,17 +77,9 @@ def blurb():
     url = 'https://api.10centuries.org/content'
     data = {'content': posttext}
     response = requests.post(url, headers=headers, data=data)
-    # Saves the server's response to 'serverresponse.txt':
-    file = open("/home/pi/10cv4/serverresponse.txt", "w")
-    file.write(response.text)
-    file.close()
     # Displays the server's response:
     responsestatus = response.status_code
-    if responsestatus == 200:
-        print("Ok.")
-    elif responsestatus != 200:
-        print("Something went wrong. Are you logged in?")
-    print("")
+    showapiresponse(responsestatus)
 
 
 # Define the 'post' (blog post) subroutine:
@@ -104,17 +97,9 @@ def post():
     # IMPORTANT: @bazbt3's channel id = 6, site id = 8.  SUBSTITUTE WITH *YOUR* CHANNEL_ID!
     data = {'title': posttitle, 'content': posttext, 'channel_id': '6', 'send_blurb': 'Y', 'pubdts': postdatetime}
     response = requests.post(url, headers=headers, data=data)
-    # Saves the server's response to 'serverresponse.txt':
-    file = open("/home/pi/10cv4/serverresponse.txt", "w")
-    file.write(response.text)
-    file.close()
     # Displays the server's response:
     responsestatus = response.status_code
-    if responsestatus == 200:
-        print("Ok.")
-    elif responsestatus != 200:
-        print("Something went wrong. Are you logged in?")
-    print("")
+    showapiresponse(responsestatus)
 
 
 # Define the 'reply' subroutine:
@@ -123,7 +108,7 @@ def reply():
     # Input a reply-to post number:
     replytoid = input("Post number to reply to: ")
     # Input some text:
-    posttext = input("Write some text: ")
+    posttext = input("Write some text (add usernames!): ")
     # Saves the input text to 'posttext.txt':
     file = open("/home/pi/10cv4/posttext.txt", "w")
     file.write(posttext)
@@ -132,26 +117,21 @@ def reply():
     url = 'https://api.10centuries.org/content'
     data = {'reply_to': replytoid, 'content': posttext}
     response = requests.post(url, headers=headers, data=data)
-    # Saves the server's response to 'serverresponse.txt':
-    file = open("/home/pi/10cv4/serverresponse.txt", "w")
-    file.write(response.text)
-    file.close()
     # Displays the server's response:
     responsestatus = response.status_code
-    if responsestatus == 200:
-        print("Ok.")
-    elif responsestatus != 200:
-        print("Something went wrong. Are you logged in?")
-    print("")
+    showapiresponse(responsestatus)
 
 
 # Define the 'replyinline' subroutine:
 # INEFFICIENT: SEE THE REPLY SUBROUTINE:
-def replyinline(postidreply):
-    # Use current 'postid' a reply-to post number:
+def replyinline(postidreply, poster):
+    # Use the to-be-replied-to post id:
     replytoid = postidreply
+    replytoposter = poster
     # Input some text:
-    posttext = input("Write some text: ")
+    posttext = input(Fore.YELLOW + Style.DIM + "Write some text: " + Style.RESET_ALL)
+    # Add '@', username to posttext:
+    posttext = ("@" + replytoposter + " " + posttext)
     # Saves the input text to 'posttext.txt':
     file = open("/home/pi/10cv4/posttext.txt", "w")
     file.write(posttext)
@@ -160,27 +140,74 @@ def replyinline(postidreply):
     url = 'https://api.10centuries.org/content'
     data = {'reply_to': replytoid, 'content': posttext}
     response = requests.post(url, headers=headers, data=data)
-    # Saves the server's response to 'serverresponse.txt':
-    file = open("/home/pi/10cv4/serverresponse.txt", "w")
-    file.write(response.text)
-    file.close()
     # Displays the server's response:
     responsestatus = response.status_code
-    if responsestatus == 200:
-        print("Ok.")
-    elif responsestatus != 200:
-        print("Something went wrong. Are you logged in?")
-    print("")
+    showapiresponse(responsestatus)
+
+
+# Define the 'repostinline' subroutine:
+def repostinline(postidrepost):
+    # Use the to-be-reposted post id:
+    repostid = postidrepost
+    # Uses the global header & creates the data to be passed to the url:
+    url = 'https://api.10centuries.org/content/repost/'
+    data = {'post_id': repostid}
+    response = requests.post(url, headers=headers, data=data)
+    # Displays the server's response:
+    responsestatus = response.status_code
+    showapiresponse(responsestatus)
+
+
+# Define the 'starinline' subroutine:
+def starinline(postidstar):
+    # Use the to-be-starred post id:
+    starid = postidstar
+    # Uses the global header & creates the data to be passed to the url:
+    url = 'https://api.10centuries.org/content/star/'
+    data = {'post_id': starid}
+    response = requests.post(url, headers=headers, data=data)
+    # Displays the server's response:
+    responsestatus = response.status_code
+    showapiresponse(responsestatus)
+
+
+# Define the 'bazrepostinline' subroutine:
+# DEPRECATED IN FAVOUR OF API REPOST - SEE REPOSTINLINE ABOVE:
+def repostinline(postidrepost, poster, posttext):
+    # Input a repost post number:
+    repostid = postidrepost
+    # Use the user from the post to be reposted:
+    repostuser = poster
+    # Use the text from the post to be resposted:
+    repostposttext = ("RP @" + repostuser + ": " + posttext)
+    # Saves the input text to 'posttext.txt':
+    file = open("/home/pi/10cv4/posttext.txt", "w")
+    file.write(repostposttext)
+    file.close()
+    # Uses the global header & creates the data to be passed to the url:
+    url = 'https://api.10centuries.org/content'
+    data = {'reply_to': repostid, 'content': repostposttext}
+    response = requests.post(url, headers=headers, data=data)
+    # Displays the server's response:
+    responsestatus = response.status_code
+    showapiresponse(responsestatus)
 
 
 # Define the 'inlineinteractions' subroutine:
 # Called during the display of timeline posts:
-def inlineinteractions(postid):
-    # Accepts all keys. Initial setup: [enter] moves to the next post, 'r' replies:
-    postidreply = postid
-    inlinecommand = input("")
+def inlineinteractions(postid, posterusername, decodedposttext):
+    # Accepts all keys. Initial setup: [enter] moves to the next post, 'r' replies, 'rp' reposts, '*' stars:
+    inlinecommand = input(Fore.BLUE + Style.DIM + "[enter],r,rp,*" + Style.RESET_ALL)
     if inlinecommand == "r":
-        replyinline(postidreply)
+        postidreply = postid
+        poster = posterusername
+        replyinline(postidreply, poster)
+    if inlinecommand == "rp":
+        postidrepost = postid
+        repostinline(postidrepost)
+    if inlinecommand == "*":
+        postidstar = postid
+        starinline(postidstar)
 
 
 # DEFINE 10C GET TIMELINE SUBROUTINES:
@@ -217,8 +244,8 @@ def mentions():
         postcount = int(postcount)
         # Using colour from colorama: https://pypi.python.org/pypi/colorama
         # Formatting e.g.: Fore.COLOUR, Back.COLOUR, Style.DIM with e.g. DIM, RED, CYAN, etc.:
-        print(Fore.YELLOW + "-----------")
-        print("[enter]: next post, [r]+[enter]: reply..." + Style.RESET_ALL)
+        print(Fore.YELLOW + Style.DIM + "-----------")
+        print("[enter]:next post, [r]+[enter]:reply, [rp]+[enter]:repost, [*]+[enter]:star..." + Style.RESET_ALL)
         print("")
         # Loops over the number of posts from postcount - saves nothing:
         # will fail if postcount > the actual number of mentions:
@@ -230,18 +257,20 @@ def mentions():
             posterusername = decoded['data'][i]['account'][0]['username']
             posteruserid = decoded['data'][i]['account'][0]['id']
             # Prints the post id and poster's username & id:
-            print(Fore.CYAN + str(postid) + Fore.GREEN + " @" + posterusername + " (id:" + str(posteruserid) + ") " + Style.DIM + Fore.BLUE + posttime + Style.RESET_ALL)
+            print(Fore.CYAN + str(postid) + Fore.GREEN + " @" + posterusername + " (id:" + str(posteruserid) + ") " + Fore.CYAN + Style.DIM + posttime + Style.RESET_ALL)
             # Prints the post text:
-            print(decoded['data'][i]['content']['text'])
+            decodedposttext = decoded['data'][i]['content']['text']
+            print(decodedposttext)
             # Sends 'postid' to the 'inlineinteraction' subroutine,
             # Where [enter] moves to the next post,
-            # Other commands are planned:
-            inlineinteractions(postid)
+            # Other commands are being added:
+            inlineinteractions(postid, posterusername, decodedposttext)
     # Exception handler ends here:
     except (ValueError, KeyError, TypeError):
         print ("JSON format error")
     # Mentions timeline up-to-date:
-    print(Fore.YELLOW + "Up-to-date.")
+    print("")
+    print(Fore.YELLOW + Style.DIM + "Up-to-date.")
     print("-----------" + Style.RESET_ALL)
 
 
@@ -277,8 +306,8 @@ def hometimeline():
         postcount = int(postcount)
         # Using colour from colorama: https://pypi.python.org/pypi/colorama
         # Formatting e.g.: Fore.COLOUR, Back.COLOUR, Style.DIM with e.g. DIM, RED, CYAN, etc.:
-        print(Fore.YELLOW + "-----------")
-        print("[enter]: next post, [r]+[enter]: reply..." + Style.RESET_ALL)
+        print(Fore.YELLOW + Style.DIM + "-----------")
+        print("[enter]:next post, [r]+[enter]:reply, [rp]+[enter]:repost, [*]+[enter]:star..." + Style.RESET_ALL)
         print("")
         # Loops over the number of posts from postcount - saves nothing:
         # will fail if postcount > the actual number of mentions:
@@ -290,18 +319,20 @@ def hometimeline():
             posterusername = decoded['data'][i]['account'][0]['username']
             posteruserid = decoded['data'][i]['account'][0]['id']
             # Prints the post id and poster's username & id:
-            print(Fore.CYAN + str(postid) + Fore.GREEN + " @" + posterusername + " (id:" + str(posteruserid) + ") " + Style.DIM + Fore.BLUE + posttime + Style.RESET_ALL)
+            print(Fore.CYAN + str(postid) + Fore.GREEN + " @" + posterusername + " (id:" + str(posteruserid) + ") " + Fore.CYAN + Style.DIM + posttime + Style.RESET_ALL)
             # Prints the post text:
-            print(decoded['data'][i]['content']['text'])
+            decodedposttext = decoded['data'][i]['content']['text']
+            print(decodedposttext)
             # Sends 'postid' to the 'inlineinteraction' subroutine,
             # Where [enter] moves to the next post,
             # Other commands are planned:
-            inlineinteractions(postid)
+            inlineinteractions(postid, posterusername, decodedposttext)
     # Exception handler ends here:
     except (ValueError, KeyError, TypeError):
         print ("JSON format error")
     # Mentions timeline up-to-date:
-    print(Fore.YELLOW + "Up-to-date.")
+    print("")
+    print(Fore.YELLOW + Style.DIM + "Up-to-date.")
     print("-----------" + Style.RESET_ALL)
 
 
@@ -352,7 +383,7 @@ def login():
     # Re-authorise now:
     authorise()
     print("")
-    print("Re-authorised (but check for a 'connected' indicator!)")
+    print(Fore.BLACK + Back.GREEN + "Re-authorised" + Style.RESET_ALL + " (but check for a 'Connected' indicator!)")
     print("")
     setloginstatus("In")
 
@@ -401,10 +432,10 @@ def setloginstatus(loginstatus):
 # Define 'checkloginstatusfile' subroutine:
 def checkloginstatusfile():
     try:
-       open("/home/pi/10cv4/loginstatus.txt")
+        open("/home/pi/10cv4/loginstatus.txt")
     except IOError as e:
-       print("Please login.")
-       setloginstatus("Out")
+        print(Fore.BLACK + Back.RED + "Please login." + Style.RESET_ALL)
+        setloginstatus("Out")
 
 
 #Define 'checkloginstatus' subroutine:
@@ -413,9 +444,19 @@ def checkloginstatus():
     loginstatusfile = open("/home/pi/10cv4/loginstatus.txt", "r")
     loginstatus = loginstatusfile.read()
     if loginstatus == "Out":
-        print("Please login.")
+        print(Fore.BLACK + Back.RED + "Please login." + Style.RESET_ALL)
     elif loginstatus == "In":
         print("Connected.")
+
+
+# Define the 'showapiresponse' subroutine:
+# Displays API response to POST routines:
+def showapiresponse(responsestatus):
+    if responsestatus == 200:
+        print("Ok.")
+    elif responsestatus != 200:
+        print("Something went wrong. Are you logged in?")
+    print("")
 
 
 # Define 'gettime' subroutine:
