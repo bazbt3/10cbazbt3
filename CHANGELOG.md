@@ -10,6 +10,14 @@
 ## The Changelog:
 (Most recent on top.)
 
+### 2016-03-25: [v0.2.1 (Slimming)](https://github.com/bazbt3/10cbazbt3/commit/a836354958200ef3a43382e25b479b2f532599d9)
+* Improved inline reply - automatically adds poster username (good timing @33MHz!)  Need to add 'cc' usernames later,
+* Added inline repost - uses API version, but I've left my own code in there for now (it's called 'bazrepostinline'),
+* Added inline star - but I'm not sure if it's going to be useful until I can *display* an account's starred posts,
+* Started making the code more modular,
+* Cutting down on the early-stage saving of server response text to files,
+* Retained saving of user-created post text, prior to a potential 'Drafts' routine (to be used in case posts don't send.)
+
 ### 2016-03-24: [v0.2.0 (Pretty colours!)](https://github.com/bazbt3/10cbazbt3/commit/558a3549158642343a50158e280f8b1e1687b758)
 * Improved: Mentions display,
 * Added: Timeline display,
