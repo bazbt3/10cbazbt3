@@ -66,7 +66,7 @@ Relatively easy to work with:
 
 A mention *display* is a list of posts, the oldest at the top.  Each post contains the post ID, poster data, the time posted and the post text.  Now in colour.
 
-Typing [enter] advances to the next post, `r` + [enter] replies to the post above the cursor using a slightly-modified version of the main 'reply' routine.
+Typing [enter] advances to the next post, `r` + [enter] replies to the post above the cursor using a slightly-modified version of the main 'reply' routine.  The application v0.2.1 adds `rp` repost and `*` star.
 
 Here's a typical mention:
 
@@ -75,11 +75,11 @@ Choice? m
 
 How many posts: 1
 -----------
-[enter]: next post, [r]+[enter]: reply...
+[enter]: next post, [r]+[enter]: reply...    
 ````
 
 `13240` **`@streakmachine (id:14)`** *`2016-03-24T20:22:17Z`*    
-**`@bazbt3 Code away! I'm typing away on a number of different things here myself. :D`**
+**`@bazbt3 Code away! I'm typing away on a number of different things here myself. :D`**    
 
 ````
 Up-to-date.
@@ -101,7 +101,7 @@ Relatively easy to work with:
 
 A timeline *display* is a list of posts, the oldest at the top.  Each post contains the post ID, poster data, the time posted and the post text.  Now in colour.
 
-Typing [enter] advances to the next post, `r` + [enter] replies to the post above the cursor using a slightly-modified version of the main 'reply' routine.
+Typing [enter] advances to the next post, `r` + [enter] replies to the post above the cursor using a slightly-modified version of the main 'reply' routine.  The application v0.2.1 adds `rp` repost and `*` star.
 
 Here's a typical timeline:
 
@@ -113,12 +113,12 @@ How many posts: 2
 [enter]: next post, [r]+[enter]: reply...
 ````
 
-`13240` **`@streakmachine (id:14)`** *`2016-03-24T20:22:17Z`*
-**`@bazbt3 Code away! I'm typing away on a number of different things here myself. :D`**
+`13240` **`@streakmachine (id:14)`** *`2016-03-24T20:22:17Z`*    
+**`@bazbt3 Code away! I'm typing away on a number of different things here myself. :D`**    
 
-`13244` **`@jextxadore (id:20)`** *`2016-03-24T20:40:06Z`*
+`13244` **`@jextxadore (id:20)`** *`2016-03-24T20:40:06Z`*    
 **`Typing up my notes from today's absolutely magnificent tasting.`**    
-**`The scores I gave to Château Palmer's 2007 and their Alter Ego 2010 are identical to Robert Parker's. Actually, a lot of my scores are unsettlingly similar to his. Freaky.`**
+**`The scores I gave to Château Palmer's 2007 and their Alter Ego 2010 are identical to Robert Parker's. Actually, a lot of my scores are unsettlingly similar to his. Freaky.`**    
 
 ````
 Up-to-date.
