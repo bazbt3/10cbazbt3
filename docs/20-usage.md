@@ -8,9 +8,8 @@
   r = Reply
   m = get Mentions
   t = get home Timeline
-
+  o = get Own timeline
   menu = redisplay Menu
-
 Admin:
   sites =  Sites owned by user
   Login =  Login
@@ -24,6 +23,8 @@ Choice?
 Self-explanatory, right?  No, not yet.
 
 ## A brief primer:
+
+Right now there is no database behind all of this, save at the 10Cv4 servers!
 
 ### `b = Blurb (social post)`:
 Easy:
@@ -43,7 +44,7 @@ Not quite as straightforward as a Blurb:
 1. **To post your text**, ensure your cursor is on a blank line and press [ctrl-d].
 
 #### Before blogging for the first time:
-Important: Please read through the code comments.  The code is currently tailored specifically to *my* Raspberry Pi's folder structure.  It's also setup to post to only *my* blog - see the 'post' subroutine for the variable to edit - *after* running **'sites'** and examining the API feedback.
+Important: Please read through the code comments.  The code is currently tailored specifically to *my* Raspberry Pi's folder structure.  It's also setup to post to only *my* blog - see the global variables definitions for the variable to edit - *after* running **'sites'** and examining the API feedback.
 
 ---
 
@@ -66,7 +67,7 @@ Relatively easy to work with:
 
 A mention *display* is a list of posts, the oldest at the top.  Each post contains the post ID, poster data, the time posted and the post text.  Now in colour.
 
-Typing [enter] advances to the next post, `r` + [enter] replies to the post above the cursor using a slightly-modified version of the main 'reply' routine.  The application v0.2.1 adds `rp` repost and `*` star.
+Typing [enter] advances to the next post, `r` + [enter] replies to the post above the cursor using a slightly-modified version of the main 'reply' routine.  The application v0.2.1 onwards adds `rp` repost, `*` star and `p` pin.
 
 Here's a typical mention:
 
@@ -88,8 +89,6 @@ Connected.
 Choice?
 ````
 
-Right now there is no database behind this.
-
 ---
 
 ### `t = get home Timeline`:
@@ -101,7 +100,7 @@ Relatively easy to work with:
 
 A timeline *display* is a list of posts, the oldest at the top.  Each post contains the post ID, poster data, the time posted and the post text.  Now in colour.
 
-Typing [enter] advances to the next post, `r` + [enter] replies to the post above the cursor using a slightly-modified version of the main 'reply' routine.  The application v0.2.1 adds `rp` repost and `*` star.
+Typing [enter] advances to the next post, `r` + [enter] replies to the post above the cursor using a slightly-modified version of the main 'reply' routine.  The application v0.2.1 onwards adds `rp` repost, `*` star and `p` pin.
 
 Here's a typical timeline:
 
@@ -127,9 +126,23 @@ Connected.
 Choice?
 ````
 
-Right now there is no database behind this.
+---
+
+### `o = get Own timeline`:
+Relatively easy to work with:
+
+1. Type `o`, press [enter]
+1. Enter the number of posts you wish to display, press [enter],
+1. Read the screen.
+
+A timeline *display* is a list of posts, the oldest at the top.  Each post contains the post ID, poster data, the time posted and the post text.  Now in colour.
+
+Typing [enter] advances to the next post, `r` + [enter] replies to the post above the cursor using a slightly-modified version of the main 'reply' routine.  The application v0.2.1 onwards adds `rp` repost, `*` star and `p` pin.
+
+Here's a typical timeline:
 
 ---
+
 
 ### `menu = redisplay Menu`
 The menu is displayed once when the application starts, can be invoked when not within a post display routine.
