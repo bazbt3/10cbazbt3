@@ -1,6 +1,14 @@
-# Placeholder!
+# Technical
 
-Gibberish:
+### Things to note:
+* This application `10cbazbt3.py` is being developed on a Raspberry Pi using **Python 3**.
+* My code and dependent files are stored in: `~/home/pi/10cv4/` - the directory is mentioned in each subroutine.
+* There's a way to go before this is as 'modular' as I'd like.
+* What there is, it works - provided a valid developer auth token is used.
+* What there is, it's a noob's first attempt at proper Python *and* interacting with an API.  Please tread carefully.
+
+
+Obsolete:
 
 ## Security:
 Taking the developer rules seriously I was able to create a bash shell script to take the access token out of the main script and into a seperate file, one read when authorisation is necessary - which it is for pretty much every interaction with the 10Cv4 API.  (Pulling posts from the Global post feed is one notable example of a request for which authorisation isn't necessary.)
