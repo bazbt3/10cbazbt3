@@ -139,8 +139,6 @@ A timeline *display* is a list of posts, the oldest at the top.  Each post conta
 
 Typing [enter] advances to the next post, `r` + [enter] replies to the post above the cursor using a slightly-modified version of the main 'reply' routine.  The application v0.2.1 onwards adds `rp` repost, `*` star and `p` pin.
 
-Here's a typical timeline:
-
 ---
 
 
