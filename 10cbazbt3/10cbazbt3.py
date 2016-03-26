@@ -1,6 +1,6 @@
 # 10cbazbt3 - a menu to interact with the 10Centuries.org social network.
 # (c) Barrie Turner, 2016-03-04 onwards.
-# Version number: 2016-03-25(Status symbols) or 0.2.2.
+# Version number: 2016-03-26(Buggy) or 0.2.3.
 
 # Routines based on the curl examples at https://docs.10centuries.org
 
@@ -35,7 +35,15 @@ init()
 from colorama import Fore, Back, Style
 
 
-# Define global variables:
+# DEFINE GLOBAL VARIABLES:
+
+# Define and assign user-specific global variables:
+global accountid      # Used for the user's account id
+accountid = '4'       # @bazbt3's account id = '4' - change this to your own!
+global channelid      # User's channel_id - used in 'post' (blog posts) *and only to that one channel*
+channelid = '6'       # @bazbt3's channel id = '6' - change this to your own!
+
+# Define other global variables:
 global loginstatus    # Stores login status indicator
 global responsestatus # Stores API response after POST routine
 
@@ -44,15 +52,16 @@ global responsestatus # Stores API response after POST routine
 
 # Define 'menu' subroutine:
 def menu():
-    print("10cbazbt3 menu:")
-    print("  b  = Blurb (social post)")
-    print("  p  = Post (blog post)")
-    print("  r  = Reply")
-    print("  m  = get Mentions (+ reply, repost, star)")
-    print("  t  = get Timeline (+ reply, repost, star)")
-    print("")
+    # Using colour from colorama: https://pypi.python.org/pypi/colorama
+    # Formatting e.g.: Fore.COLOUR, Back.COLOUR, Style.DIM with e.g. DIM, RED, CYAN, etc.:
+    print(Fore.BLACK + Back.WHITE + "10cbazbt3 menu:" + Style.RESET_ALL)
+    print("  b = Blurb (social post)")
+    print("  p = Post (blog post)")
+    print("  r = Reply")
+    print("  m = get Mentions   (+ reply, repost, star)")
+    print("  t = get Timeline   (+ reply, repost, star)")
+    print("  o = get Own blurbs (+ reply, repost, star)")
     print("  menu = redisplay Menu")
-    print("")
     print("Admin:")
     print("  sites =  Sites owned by user")
     print("  Login =  Login")
@@ -91,11 +100,10 @@ def post():
     posttext = sys.stdin.read()
     # Adds a post date & time, currently set as 'now':
     postdatetime = strftime("%Y-%m-%d %H:%M:%S")
-    # (I decided to not save blog post text to a file for blog posts.)
     # Uses the global header & creates the data to be passed to the url:
     url = 'https://api.10centuries.org/content'
-    # IMPORTANT: @bazbt3's channel id = 6, site id = 8.  SUBSTITUTE WITH *YOUR* CHANNEL_ID!
-    data = {'title': posttitle, 'content': posttext, 'channel_id': '6', 'send_blurb': 'Y', 'pubdts': postdatetime}
+    # IMPORTANT: @bazbt3's channel_id = 6. SUBSTITUTE WITH YOUR CHANNEL_ID in global definitions!
+    data = {'title': posttitle, 'content': posttext, 'channel_id': channelid, 'send_blurb': 'Y', 'pubdts': postdatetime}
     response = requests.post(url, headers=headers, data=data)
     # Displays the server's response:
     responsestatus = response.status_code
@@ -171,6 +179,20 @@ def starinline(postidstar):
     showapiresponse(responsestatus)
 
 
+# Define the 'pininline' subroutine:
+def pininline(postidpin):
+    # Use the to-be-starred post id:
+    pinid = postidpin
+    # Uses the global header & creates the data to be passed to the url:
+    url = 'https://api.10centuries.org/content/pin/'
+    # Initial pin = colour ('color') black (hex: #000000), may be good to add the other 5 later:
+    data = {'post_id': pinid, 'color': '#000000'}
+    response = requests.post(url, headers=headers, data=data)
+    # Displays the server's response:
+    responsestatus = response.status_code
+    showapiresponse(responsestatus)
+
+
 # Define the 'bazrepostinline' subroutine:
 # DEPRECATED IN FAVOUR OF API REPOST - SEE REPOSTINLINE ABOVE:
 def repostinline(postidrepost, poster, posttext):
@@ -196,8 +218,8 @@ def repostinline(postidrepost, poster, posttext):
 # Define the 'inlineinteractions' subroutine:
 # Called during the display of timeline posts:
 def inlineinteractions(postid, posterusername, decodedposttext):
-    # Accepts all keys. Initial setup: [enter] moves to the next post, 'r' replies, 'rp' reposts, '*' stars:
-    inlinecommand = input(Fore.BLUE + Style.DIM + "[enter],r,rp,*" + Style.RESET_ALL)
+    # Accepts all keys. Initial setup: [enter] moves to next post, 'r' replies, 'rp' reposts, '*' stars, 'p' pins:
+    inlinecommand = input(Fore.BLUE + Style.DIM + "[enter],r,rp,*,p " + Style.RESET_ALL)
     if inlinecommand == "r":
         postidreply = postid
         poster = posterusername
@@ -208,6 +230,9 @@ def inlineinteractions(postid, posterusername, decodedposttext):
     if inlinecommand == "*":
         postidstar = postid
         starinline(postidstar)
+    if inlinecommand == "p":
+        postidpin = postid
+        pininline(postidpin)
 
 
 # DEFINE 10C GET TIMELINE SUBROUTINES:
@@ -235,10 +260,8 @@ def timelinebase(passedresponse, passedpostcount):
         # print("")
         # Extracting useful data from json-formatted string:
         postcount = int(postcount)
-        # Using colour from colorama: https://pypi.python.org/pypi/colorama
-        # Formatting e.g.: Fore.COLOUR, Back.COLOUR, Style.DIM with e.g. DIM, RED, CYAN, etc.:
         print(Fore.YELLOW + Style.DIM + "-----------")
-        print("[enter]:next post, [r]+[enter]:reply, [rp]+[enter]:repost, [*]+[enter]:star..." + Style.RESET_ALL)
+        print("[enter]:next post, [r]+[enter]:reply, [rp]+[enter]:repost, [*]+[enter]:star, [p]+[enter]:pin..." + Style.RESET_ALL)
         print("")
         # Loops over the number of posts from postcount - saves nothing:
         # will fail if postcount > the actual number of mentions:
@@ -258,14 +281,13 @@ def timelinebase(passedresponse, passedpostcount):
             youreblurbed = decoded['data'][i]['you_reblurbed']
             clientname = decoded['data'][i]['client']['name']
             # Builds ancillary metadata from above:
-            statusstring = ""
+            statusstring = " [" + clientname + "]"
             if youstarred != False:
                 statusstring = statusstring + " *"
             if youpinned != False:
                 statusstring = statusstring + " pin"
             if youreblurbed != False:
                 statusstring = statusstring + " rb"
-            statusstring = statusstring + " [" + clientname + "]"
             # Builds the post id, poster's username & id, date & time posted & the above items of metadata:
             # Displays the text header:
             if ismention != False:
@@ -291,10 +313,9 @@ def timelinebase(passedresponse, passedpostcount):
 # Define the 'mentions' subroutine:
 def mentions():
     # How many mentions posts to retrieve?
-    postcount = input("How many posts: ")
+    postcount = input(Fore.YELLOW + Style.DIM + "How many posts: " + Style.RESET_ALL)
     postcount = str(postcount)
     # Uses the global header & creates the data to be passed to the url:
-    # Note: only appending postcount to the URL works, i.e. fails passed as data.
     url = 'https://api.10centuries.org/content/blurbs/mentions?count=' + postcount
     data = {'count': postcount}
     response = requests.get(url, headers=headers, data=data)
@@ -304,11 +325,24 @@ def mentions():
 
 # Define the 'hometimeline' subroutine:
 def hometimeline():
-    # How many mentions posts to retrieve?
-    postcount = input("How many posts: ")
+    # How many home timeline posts to retrieve?
+    postcount = input(Fore.YELLOW + Style.DIM + "How many posts: " + Style.RESET_ALL)
     postcount = str(postcount)
     # Uses the global header & creates the data to be passed to the url:
-    url = 'https://api.10centuries.org/content/blurbs/home'
+    url = 'https://api.10centuries.org/content/blurbs/home?count=' + postcount
+    data = {'count': postcount}
+    response = requests.get(url, headers=headers, data=data)
+    # Pass the API response to 'timelinebase':
+    timelinebase(response, postcount)
+
+
+# Define the 'ownblurbtimeline' subroutine:
+def ownblurbtimeline():
+    # How many own posts to retrieve?
+    postcount = input(Fore.YELLOW + Style.DIM + "How many posts: " + Style.RESET_ALL)
+    postcount = str(postcount)
+    # Uses the global header & creates the data to be passed to the url:
+    url = 'https://api.10centuries.org/users/blurbs/' + accountid + '?count=' + postcount
     data = {'count': postcount}
     response = requests.get(url, headers=headers, data=data)
     # Pass the API response to 'timelinebase':
@@ -339,9 +373,9 @@ def authorise():
 # Requires less of the file i/o:
 def login():
     # Input account name:
-    my_acctname = input("10C Username (account email address): ")
+    my_acctname = input(Fore.YELLOW + Style.DIM + "10C Username (account email address): " + Fore.WHITE)
     # Input account password:
-    my_acctpass = getpass.getpass("10C Password (is not shown onscreen): ")
+    my_acctpass = getpass.getpass(Fore.YELLOW + Style.DIM + "10C Password (is not shown onscreen): " + Style.RESET_ALL)
     # Construct the login URL & data passed to the API:
     url = 'https://api.10centuries.org/auth/login'
     loginheaders = {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -425,7 +459,7 @@ def checkloginstatus():
     if loginstatus == "Out":
         print(Fore.BLACK + Back.RED + "Please login." + Style.RESET_ALL)
     elif loginstatus == "In":
-        print("Connected.")
+        print(Fore.GREEN + "Connected." + Style.RESET_ALL)
 
 
 # Define the 'showapiresponse' subroutine:
@@ -469,7 +503,7 @@ menu()
 choice = "Little Bobby Tables"
 while choice != 'exit':
     checkloginstatus()
-    choice = input("Choice? ")
+    choice = input(Fore.YELLOW + Style.DIM + "Choice? " + Style.RESET_ALL)
     print("")
     if choice == 'b':
         blurb()
@@ -481,6 +515,8 @@ while choice != 'exit':
         mentions()
     elif choice == 't':
         hometimeline()
+    elif choice == 'o':
+        ownblurbtimeline()
     elif choice == 'menu':
         menu()
     elif choice == 'sites':
