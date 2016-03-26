@@ -3,7 +3,8 @@
 
 ### 2016-03-26: [v0.2.3 (Buggy)](https://github.com/bazbt3/10cbazbt3/commit/3156bd5035a7725a62fbdbe7e0ec7398b3adb957)
 Bug fixes:
-* User timeline routine passed post count as data - which worked upto 50 posts - instead of appended to the URL, which now works upto the 200-post API limit.    
+* User timeline routine passed post count as data - which worked upto 50 posts - instead of appended to the URL, which now works upto the 200-post API limit.
+
 Enhancements:
 * Added own blurb listing, though during testing for a future other-user I'm having trouble with certain account ids causing errors,
 * Added post pinning inline with the listings - black only at this stage,
