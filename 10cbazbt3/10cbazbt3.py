@@ -1,6 +1,6 @@
 # 10cbazbt3 - a menu to interact with the 10Centuries.org social network.
 # (c) Barrie Turner, 2016-03-04 onwards.
-# Version number: 2016-03-26(Buggy) or 0.2.3.
+# Version number: 2016-03-26(NOW Buggy) or 0.2.3timelinebug.
 
 # Routines based on the curl examples at https://docs.10centuries.org
 
@@ -55,17 +55,12 @@ def menu():
     # Using colour from colorama: https://pypi.python.org/pypi/colorama
     # Formatting e.g.: Fore.COLOUR, Back.COLOUR, Style.DIM with e.g. DIM, RED, CYAN, etc.:
     print(Fore.BLACK + Back.WHITE + "10cbazbt3 menu:" + Style.RESET_ALL)
-    print("  b = Blurb (social post)")
-    print("  p = Post (blog post)")
-    print("  r = Reply")
-    print("  m = get Mentions   (+ reply, repost, star)")
-    print("  t = get Timeline   (+ reply, repost, star)")
-    print("  o = get Own blurbs (+ reply, repost, star)")
-    print("  menu = redisplay Menu")
+    print("  b = Blurb (social post)   m = get Mentions")
+    print("  p = Post (blog post)      t = get Timeline")
+    print("  r = Reply                 o = get Own blurbs")
     print("Admin:")
-    print("  sites =  Sites owned by user")
-    print("  Login =  Login")
-    print("  Logout = Logout")
+    print("  Login =  Login     menu =  redisplay Menu")
+    print("  Logout = Logout    sites = user's Sites")
     print("  exit =   Exit")
     print("")
 
@@ -103,7 +98,7 @@ def post():
     # Uses the global header & creates the data to be passed to the url:
     url = 'https://api.10centuries.org/content'
     # IMPORTANT: @bazbt3's channel_id = 6. SUBSTITUTE WITH YOUR CHANNEL_ID in global definitions!
-    data = {'title': posttitle, 'content': posttext, 'channel_id': channelid, 'send_blurb': 'Y', 'pubdts': postdatetime}
+    data = {'title': posttitle, 'content': posttext, 'channel_id': '6', 'send_blurb': 'Y', 'pubdts': postdatetime}
     response = requests.post(url, headers=headers, data=data)
     # Displays the server's response:
     responsestatus = response.status_code
@@ -329,7 +324,10 @@ def hometimeline():
     postcount = input(Fore.YELLOW + Style.DIM + "How many posts: " + Style.RESET_ALL)
     postcount = str(postcount)
     # Uses the global header & creates the data to be passed to the url:
-    url = 'https://api.10centuries.org/content/blurbs/home?count=' + postcount
+    # SINCE 0.2.3 I HAD TO REVERT TO COUNT PASSED AS DATA,
+    # APPENDED TO THE URL IT FAILS AND I DON'T KNOW WHY,
+    # I'VE CHANGED NONE OF THE RELATED CODE!
+    url = 'https://api.10centuries.org/content/blurbs/home' #?count=' + postcount
     data = {'count': postcount}
     response = requests.get(url, headers=headers, data=data)
     # Pass the API response to 'timelinebase':
