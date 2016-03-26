@@ -7,10 +7,11 @@
 * What there is, it works - provided a valid developer auth token is used.
 * What there is, it's a noob's first attempt at proper Python *and* interacting with an API.  Please tread carefully.
 
+---
 
-Obsolete:
+## Obsolete text:
 
-## Security:
+### History/Security:
 Taking the developer rules seriously I was able to create a bash shell script to take the access token out of the main script and into a seperate file, one read when authorisation is necessary - which it is for pretty much every interaction with the 10Cv4 API.  (Pulling posts from the Global post feed is one notable example of a request for which authorisation isn't necessary.)
 
 I'm pleased beyond measure that I was able to translate the stuff from bash to Python.
