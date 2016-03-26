@@ -1,14 +1,15 @@
 # CHANGELOG
-
-### Things to note:
-* This application `10cbazbt3.py` is being developed on a Raspberry Pi using **Python 3**.
-* My code and dependent files are stored in: `~/home/pi/10cv4/` - the directory is mentioned in each subroutine.
-* There's a way to go before this is as 'modular' as I'd like.
-* What there is, it works - provided a valid developer auth token is used.
-* What there is, it's a noob's first attempt at proper Python *and* interacting with an API.  Please tread carefully.
-
-## The Changelog:
 (Most recent on top.)
+
+### 2016-03-26: [v0.2.3 (Buggy)](https://github.com/bazbt3/10cbazbt3/commit/3156bd5035a7725a62fbdbe7e0ec7398b3adb957)
+Bug fixes:
+* User timeline routine passed post count as data - which worked upto 50 posts - instead of appended to the URL, which now works upto the 200-post API limit.
+Enhancements:
+* Added own blurb listing, though during testing for a future other-user I'm having trouble with certain account ids causing errors,
+* Added post pinning inline with the listings - black only at this stage,
+* Started to collect user- and OS-specific data into one place - to *eventually* aid new users and cross-platform capability,
+* Added more colour and subtle UI improvements (including the menu),
+* Moved starred, pinned and reblurbed indicators to the end of the status line to enhance visibility.
 
 ### 2016-03-25: [v0.2.2 (Status symbols)](https://github.com/bazbt3/10cbazbt3/commit/46172710faa7a0628bde98901e9e8cec8c7ec26c)
 * Added status symbols for a client user mention; for starred, pinned, reblurbed posts; and added the name of the client used to post,
