@@ -1,6 +1,11 @@
 # CHANGELOG
 (Most recent on top.)
 
+### 2016-03-27: [v0.2.5 (Bloatware)](https://github.com/bazbt3/10cbazbt3/commit/03eda3e55b75b338a0d13bcc8157d045eeea4464)
+Enhancements:
+* Added own pinned posts (unlike stars, pins don't toggle),
+* Added Interactions - though it has limited appeal without the supporting metadata (e.g. who starred, etc.)
+
 ### 2016-03-27: [v0.2.4 ("that's very odd")](https://github.com/bazbt3/10cbazbt3/commit/09e3511b092401e4568a399d4016b4c633c80453)
 Temporary bug fixes:
 * **Own timeline now works** but it's not ideal - it tops out at 49 posts.  I don't know why it's happening *now.*  
