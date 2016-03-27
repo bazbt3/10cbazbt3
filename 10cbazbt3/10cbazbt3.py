@@ -1,6 +1,6 @@
 # 10cbazbt3 - a menu to interact with the 10Centuries.org social network.
 # (c) Barrie Turner, 2016-03-04 onwards.
-# Version number: 2016-03-27("that's very odd") or 0.2.4.
+# Version number: 2016-03-27: v0.2.5 (Bloatware)
 
 # Routines based on the curl examples at https://docs.10centuries.org
 
@@ -55,14 +55,17 @@ def menu():
     # Using colour from colorama: https://pypi.python.org/pypi/colorama
     # Formatting e.g.: Fore.COLOUR, Back.COLOUR, Style.DIM with e.g. DIM, RED, CYAN, etc.:
     print(Fore.BLACK + Back.WHITE + "10cbazbt3 menu:" + Style.RESET_ALL)
-    print("  b = Blurb (social post)   m = get Mentions")
-    print("  p = Post (blog post)      t = get Timeline")
-    print("  r = Reply                 o = get Own blurbs")
+    print(Fore.YELLOW + Style.DIM + "Main:")
+    print("  b = Blurb (social post)   m =     Mentions")
+    print("  r = Reply                 t =     Timeline")
+    print("  blog = create BLOG post   o =     Own blurbs")
+    print("                            pins =  PINS")
+    print("                            inter = INTERactions")
     print("Admin:")
     print("  Login =  Login     menu =  redisplay Menu")
     print("  Logout = Logout    sites = user's Sites")
     print("  exit =   Exit")
-    print("")
+    print(Style.RESET_ALL)
 
 
 # DEFINE 10C POST INTERACTIONS:
@@ -163,9 +166,6 @@ def repostinline(postidrepost):
     #response = requests.post(url, headers=headers, data=data)
     # Displays the server's response:
     #responsestatus = response.status_code
-    #file = open("/home/pi/10cv4/serverresponse.txt", "r")
-    #file.write(responsestatus)
-    #file.close()
     #showapiresponse(responsestatus)
 
 
@@ -341,13 +341,40 @@ def hometimeline():
 
 
 # Define the 'ownblurbtimeline' subroutine:
-# AS-OF v0.2.4 THIS ROUTINE IS BUGGY - SEE THE COMMENTED-OUT CODE ON THE 'url' ASSIGNMENT LINE:
+# BUGGY AS-OF v0.2.4 - SEE THE COMMENTED-OUT CODE ON THE 'url' ASSIGNMENT LINE:
 def ownblurbtimeline():
     # How many own posts to retrieve?
     postcount = input(Fore.YELLOW + Style.DIM + "How many posts? " + Style.RESET_ALL)
     postcount = str(postcount)
     # Uses the global header & creates the data to be passed to the url:
-    url = 'https://api.10centuries.org/users/blurbs/' + accountid # + '?count=' + postcount
+    url = 'https://api.10centuries.org/users/blurbs/' + accountid #+ '?count=' + postcount
+    data = {'count': postcount}
+    response = requests.get(url, headers=headers, data=data)
+    # Pass the API response to 'timelinebase':
+    timelinebase(response, postcount)
+
+
+# Define the 'ownpinstimeline' subroutine:
+def ownpinstimeline():
+    # How many own pinned posts to retrieve?
+    postcount = input(Fore.YELLOW + Style.DIM + "How many posts? " + Style.RESET_ALL)
+    postcount = str(postcount)
+    # Uses the global header & creates the data to be passed to the url:
+    url = 'https://api.10centuries.org/content/blurbs/pins?count=' + postcount
+    data = {'count': postcount}
+    response = requests.get(url, headers=headers, data=data)
+    # Pass the API response to 'timelinebase':
+    timelinebase(response, postcount)
+
+
+# Define the 'interactionstimeline' subroutine:
+# BUGGY AS-OF v0.2.4 - SEE THE COMMENTED-OUT CODE ON THE 'url' ASSIGNMENT LINE:
+def interactionstimeline():
+    # How many hown pinned posts to retrieve?
+    postcount = input(Fore.YELLOW + Style.DIM + "How many posts? " + Style.RESET_ALL)
+    postcount = str(postcount)
+    # Uses the global header & creates the data to be passed to the url:
+    url = 'https://api.10centuries.org/content/blurbs/interactions' #?count=' + postcount
     data = {'count': postcount}
     response = requests.get(url, headers=headers, data=data)
     # Pass the API response to 'timelinebase':
@@ -452,7 +479,7 @@ def checkloginstatusfile():
     try:
         open("/home/pi/10cv4/loginstatus.txt")
     except IOError as e:
-        print(Fore.BLACK + Back.RED + "Please login." + Style.RESET_ALL)
+        print(Fore.BLACK + Back.RED + "Please Login." + Style.RESET_ALL)
         setloginstatus("Out")
 
 
@@ -462,7 +489,7 @@ def checkloginstatus():
     loginstatusfile = open("/home/pi/10cv4/loginstatus.txt", "r")
     loginstatus = loginstatusfile.read()
     if loginstatus == "Out":
-        print(Fore.BLACK + Back.RED + "Please login." + Style.RESET_ALL)
+        print(Fore.BLACK + Back.RED + "Please Login." + Style.RESET_ALL)
     elif loginstatus == "In":
         print(Fore.GREEN + "Connected." + Style.RESET_ALL)
 
@@ -512,7 +539,7 @@ while choice != 'exit':
     print("")
     if choice == 'b':
         blurb()
-    elif choice == 'p':
+    elif choice == 'blog':
         post()
     elif choice == 'r':
         reply()
@@ -522,6 +549,10 @@ while choice != 'exit':
         hometimeline()
     elif choice == 'o':
         ownblurbtimeline()
+    elif choice == 'pins':
+        ownpinstimeline()
+    elif choice == 'inter':
+        interactionstimeline()
     elif choice == 'menu':
         menu()
     elif choice == 'sites':
