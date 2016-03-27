@@ -1,9 +1,19 @@
-## The code
+# The files
 
-### Things to note:
-* This application `10cbazbt3.py` is being developed on a Raspberry Pi *using Python 3.*
-* The code and dependent files are stored in: `~/home/pi/10cv4/` - the directory is mentioned in each subroutine.
-* It also currently uses my site's ID in the `post()` subroutine.
-* There's a way to go before this is as 'modular' as I'd like.
-* What there is, it works *provided a valid developer auth token is used.*
-* What there is, it's a noob's first attempt at proper Python *and* interacting with an API.  Please tread carefully.
+### A running client's file list:
+
+Valid 2016-03-27, at v0.2.4.
+
+The main application:
+* `10cbazbt3.py              ` - the main application, Python 3
+
+Needed before the application will run:
+* `10cv4guid.txt             ` - contains the Developer Client Key,
+
+Created by the application:
+* `authtoken.txt             ` - contains the authorisation token created by a successful login,
+* `loginresponse.txt         ` - contains the API JSON response from a login.  For testing only.
+* `loginstatus.txt           ` - contains the logged-in status; either `Out` or `In`,
+* `logoutresponse.txt        ` - stores the API JSON response to a logout request,
+* `posttext.txt              ` - stores the text of the post to be sent to the server,
+* `servermentionsresponse.txt` - stores the API JSON response from a GET request.
