@@ -1,6 +1,6 @@
 # 10cbazbt3 - a menu to interact with the 10Centuries.org social network.
 # (c) Barrie Turner, 2016-03-04 onwards.
-# Version number: 2016-03-26(NOW Buggy) or 0.2.3timelinebug.
+# Version number: 2016-03-27("that's very odd") or 0.2.4.
 
 # Routines based on the curl examples at https://docs.10centuries.org
 
@@ -72,7 +72,7 @@ def menu():
 # Define the 'blurb' (social post) subroutine:
 def blurb():
     # Input some text:
-    posttext = input("Write some text: ")
+    posttext = input(Fore.YELLOW + Style.DIM + "Write some text: " + Style.RESET_ALL)
     # Saves the input text to 'posttext.txt':
     file = open("/home/pi/10cv4/posttext.txt", "w")
     file.write(posttext)
@@ -89,16 +89,16 @@ def blurb():
 # Define the 'post' (blog post) subroutine:
 def post():
     # Input blog post data:
-    posttitle = input("Write a blog post title: ")
-    print("Write a blog post:")
-    print("(Press [ctrl-d] to 'save' when you finish writing.)")
+    posttitle = input(Fore.YELLOW + Style.DIM + "Write a blog post title: " + Style.RESET_ALL)
+    print(Fore.YELLOW + Style.DIM + "Write a blog post:")
+    print("(Press [ctrl-d] to 'save' when you finish writing.)" + Style.RESET_ALL)
     posttext = sys.stdin.read()
     # Adds a post date & time, currently set as 'now':
     postdatetime = strftime("%Y-%m-%d %H:%M:%S")
     # Uses the global header & creates the data to be passed to the url:
     url = 'https://api.10centuries.org/content'
     # IMPORTANT: @bazbt3's channel_id = 6. SUBSTITUTE WITH YOUR CHANNEL_ID in global definitions!
-    data = {'title': posttitle, 'content': posttext, 'channel_id': '6', 'send_blurb': 'Y', 'pubdts': postdatetime}
+    data = {'title': posttitle, 'content': posttext, 'channel_id': channelid, 'send_blurb': 'Y', 'pubdts': postdatetime}
     response = requests.post(url, headers=headers, data=data)
     # Displays the server's response:
     responsestatus = response.status_code
@@ -109,9 +109,9 @@ def post():
 def reply():
     # INEFFICIENT: NEED TO MERGE MOST OF THE CODE FROM THIS AND THE REPLYINLINE SUBROUTINE:
     # Input a reply-to post number:
-    replytoid = input("Post number to reply to: ")
+    replytoid = input(Fore.YELLOW + Style.DIM + "Post number to reply to: " + Style.RESET_ALL)
     # Input some text:
-    posttext = input("Write some text (add usernames!): ")
+    posttext = input(Fore.YELLOW + Style.DIM + "Write some text (add usernames!): " + Style.RESET_ALL)
     # Saves the input text to 'posttext.txt':
     file = open("/home/pi/10cv4/posttext.txt", "w")
     file.write(posttext)
@@ -150,15 +150,23 @@ def replyinline(postidreply, poster):
 
 # Define the 'repostinline' subroutine:
 def repostinline(postidrepost):
+    # ROUTINE FAILS REPEATEDLY, SEE THE COMMENTED-OUT CODE BELOW - NO SPACE AFTER THE HASHES:
+    # REMOVE THESE 3 PRINT LINES FROM A FIXED ROUTINE:
+    print("")
+    print(Fore.RED + "ReBlurb needs fixing, sorry!" + Style.RESET_ALL)
+    print("")
     # Use the to-be-reposted post id:
-    repostid = postidrepost
+    #repostid = postidrepost
     # Uses the global header & creates the data to be passed to the url:
-    url = 'https://api.10centuries.org/content/repost/'
-    data = {'post_id': repostid}
-    response = requests.post(url, headers=headers, data=data)
+    #url = 'https://api.10centuries.org/content/repost/?post_id=' + repostid
+    #data = {'post_id': repostid}
+    #response = requests.post(url, headers=headers, data=data)
     # Displays the server's response:
-    responsestatus = response.status_code
-    showapiresponse(responsestatus)
+    #responsestatus = response.status_code
+    #file = open("/home/pi/10cv4/serverresponse.txt", "r")
+    #file.write(responsestatus)
+    #file.close()
+    #showapiresponse(responsestatus)
 
 
 # Define the 'starinline' subroutine:
@@ -190,7 +198,7 @@ def pininline(postidpin):
 
 # Define the 'bazrepostinline' subroutine:
 # DEPRECATED IN FAVOUR OF API REPOST - SEE REPOSTINLINE ABOVE:
-def repostinline(postidrepost, poster, posttext):
+def bazrepostinline(postidrepost, poster, posttext):
     # Input a repost post number:
     repostid = postidrepost
     # Use the user from the post to be reposted:
@@ -202,6 +210,7 @@ def repostinline(postidrepost, poster, posttext):
     file.write(repostposttext)
     file.close()
     # Uses the global header & creates the data to be passed to the url:
+    # 'reply_to' retains the link to the originating post, is intentional:
     url = 'https://api.10centuries.org/content'
     data = {'reply_to': repostid, 'content': repostposttext}
     response = requests.post(url, headers=headers, data=data)
@@ -308,7 +317,7 @@ def timelinebase(passedresponse, passedpostcount):
 # Define the 'mentions' subroutine:
 def mentions():
     # How many mentions posts to retrieve?
-    postcount = input(Fore.YELLOW + Style.DIM + "How many posts: " + Style.RESET_ALL)
+    postcount = input(Fore.YELLOW + Style.DIM + "How many posts? " + Style.RESET_ALL)
     postcount = str(postcount)
     # Uses the global header & creates the data to be passed to the url:
     url = 'https://api.10centuries.org/content/blurbs/mentions?count=' + postcount
@@ -321,13 +330,10 @@ def mentions():
 # Define the 'hometimeline' subroutine:
 def hometimeline():
     # How many home timeline posts to retrieve?
-    postcount = input(Fore.YELLOW + Style.DIM + "How many posts: " + Style.RESET_ALL)
+    postcount = input(Fore.YELLOW + Style.DIM + "How many posts? " + Style.RESET_ALL)
     postcount = str(postcount)
     # Uses the global header & creates the data to be passed to the url:
-    # SINCE 0.2.3 I HAD TO REVERT TO COUNT PASSED AS DATA,
-    # APPENDED TO THE URL IT FAILS AND I DON'T KNOW WHY,
-    # I'VE CHANGED NONE OF THE RELATED CODE!
-    url = 'https://api.10centuries.org/content/blurbs/home' #?count=' + postcount
+    url = 'https://api.10centuries.org/content/blurbs/home?count=' + postcount
     data = {'count': postcount}
     response = requests.get(url, headers=headers, data=data)
     # Pass the API response to 'timelinebase':
@@ -335,12 +341,13 @@ def hometimeline():
 
 
 # Define the 'ownblurbtimeline' subroutine:
+# AS-OF v0.2.4 THIS ROUTINE IS BUGGY - SEE THE COMMENTED-OUT CODE ON THE 'url' ASSIGNMENT LINE:
 def ownblurbtimeline():
     # How many own posts to retrieve?
-    postcount = input(Fore.YELLOW + Style.DIM + "How many posts: " + Style.RESET_ALL)
+    postcount = input(Fore.YELLOW + Style.DIM + "How many posts? " + Style.RESET_ALL)
     postcount = str(postcount)
     # Uses the global header & creates the data to be passed to the url:
-    url = 'https://api.10centuries.org/users/blurbs/' + accountid + '?count=' + postcount
+    url = 'https://api.10centuries.org/users/blurbs/' + accountid # + '?count=' + postcount
     data = {'count': postcount}
     response = requests.get(url, headers=headers, data=data)
     # Pass the API response to 'timelinebase':
@@ -464,7 +471,7 @@ def checkloginstatus():
 # Displays API response to POST routines:
 def showapiresponse(responsestatus):
     if responsestatus == 200:
-        print("Ok.")
+        print(Fore.YELLOW + Style.DIM + "Ok." + Style.RESET_ALL)
     elif responsestatus != 200:
         print("Something went wrong. Are you logged in?")
     print("")
