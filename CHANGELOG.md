@@ -2,6 +2,9 @@
 (Most recent on top.)
 
 ### 2016-03-27: [v0.2.5 (Bloatware)](https://github.com/bazbt3/10cbazbt3/commit/03eda3e55b75b338a0d13bcc8157d045eeea4464)
+**Bug:**
+* Without the `authtoken.txt` file the application fails to open.  This is a quite interesting development - and a bar to anyone attempting to use the code.  [See issue #29.](https://github.com/bazbt3/10cbazbt3/issues/28)
+
 Enhancements:
 * Added own pinned posts (unlike stars, pins don't toggle),
 * Added Interactions - though it has limited appeal without the supporting metadata (e.g. who starred, etc.)
