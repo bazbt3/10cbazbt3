@@ -3,7 +3,8 @@
 
 ### Coming up in v0.2.4: 
 * The Timeline will work again when the code is uploaded.  It's important to note that I haven't changed any of the code in the routine vs 0.2.2, so it *shouldn't* 'just work'.
-* **Reposts are currently failing** - though none of the code has changed.  I don't understand why, as the routine worked pior to v0.2.3.
+* **Own timeline is now failing**  In common with the above fix I don't know why it's happening *now.*  
+* **Reposts are currently failing** - though none of the code has changed.  I don't understand why, as the routine worked in v0.2.1.  Annoying: when I use 0.2.1's *once-working version* it too fails now.
 * See yesterday's changes for more information.
 
 ### 2016-03-26: [0.2.3timelinebug (NOW Buggy)](https://github.com/bazbt3/10cbazbt3/commit/dbd7f26554468a1345237c7c309fa1ec5e1ac0c8)
