@@ -1,6 +1,9 @@
 # CHANGELOG
 (Most recent on top.)
 
+### 2016-03-26: [0.2.3timelinebug (NOW Buggy)](https://github.com/bazbt3/10cbazbt3/commit/dbd7f26554468a1345237c7c309fa1ec5e1ac0c8)
+* **TEMPORARY BUGFIX:** v0.2.3 introduced a failure to display the user timeline.  I've reverted from post count data appended to the URL, to sent as data again.  The failure may be related to the addition of global variables, I don't yet know, the day has run out here.
+
 ### 2016-03-26: [v0.2.3 (Buggy)](https://github.com/bazbt3/10cbazbt3/commit/3156bd5035a7725a62fbdbe7e0ec7398b3adb957)
 Bug fixes:
 * User timeline routine passed post count as data - which worked upto 50 posts - instead of appended to the URL, which now works upto the 200-post API limit.
