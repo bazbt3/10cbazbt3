@@ -9,6 +9,15 @@
 
 ---
 
+## Bug fixing:
+
+### Application fails without `authtoken.txt`:
+Here's a flowchart indicating what's necessary to add more fault-tolerance to the application:
+
+![login flowchart](/images/10cbazbt3_login_flowchart.JPG)
+
+---
+
 ## Obsolete text:
 
 ### History/Security:
