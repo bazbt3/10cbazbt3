@@ -1,5 +1,5 @@
 ---
-Startup-Bug: Requires presence of valid authtoken.txt file - if deleted after successful login but before logout.
+Startup-Bug: Requires presence of valid authtoken.txt file - if deleted after successful login but before logout. See issue #28.
 ---
 
 # What is '10cbazbt3'?
