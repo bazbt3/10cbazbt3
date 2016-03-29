@@ -3,7 +3,7 @@
 
 ### 2016-03-27: [v0.2.5 (Bloatware)](https://github.com/bazbt3/10cbazbt3/commit/03eda3e55b75b338a0d13bcc8157d045eeea4464)
 **Bug:**
-* Without the `authtoken.txt` file the application fails to open.  This is a quite interesting development - and a bar to anyone attempting to use the code.  [See issue #29.](https://github.com/bazbt3/10cbazbt3/issues/28)
+* Without the `authtoken.txt` file the application fails to open.  This is a quite interesting development - and a bar to anyone attempting to use the code.  [See issue #28.](https://github.com/bazbt3/10cbazbt3/issues/28) and the [![preliminary flowchart](https://github.com/bazbt3/10cbazbt3/blob/master/docs/30-technical.md#bug-fixing](https://github.com/bazbt3/10cbazbt3/blob/master/docs/30-technical.md#bug-fixingwhich) should help fix this.
 
 Enhancements:
 * Added own pinned posts (unlike stars, pins don't toggle),
