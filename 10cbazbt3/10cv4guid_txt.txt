@@ -1,0 +1,5 @@
+*** You MUST CREATE 10cv4guid.txt for 10cv4bazbt3.py ***
+
+*** Your file must have only one line - only the     ***
+*** Client GUID obtained using the instructions at   ***
+*** https://docs.10centuries.org/auth                ***
