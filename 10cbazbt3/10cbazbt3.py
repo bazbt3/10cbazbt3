@@ -1,6 +1,6 @@
 # 10cbazbt3 - a menu to interact with the 10Centuries.org social network.
 # (c) Barrie Turner, 2016-03-04 onwards.
-# Version number: 2016-03-27: v0.2.5 (Bloatware)
+# Version number: 2016-03-29: v0.2.6 (All are welcome)
 
 # Routines based on the curl examples at https://docs.10centuries.org
 
@@ -38,10 +38,10 @@ from colorama import Fore, Back, Style
 # DEFINE GLOBAL VARIABLES:
 
 # Define and assign user-specific global variables:
-global accountid      # Used for the user's account id
-accountid = '4'       # @bazbt3's account id = '4' - change this to your own!
-global channelid      # User's channel_id - used in 'post' (blog posts) *and only to that one channel*
-channelid = '6'       # @bazbt3's channel id = '6' - change this to your own!
+global accountid  # Used for the user's account id
+accountid = '4'   # @bazbt3's account id = '4' - change this to your own!
+global channelid  # User's channel_id - used in 'post' (blog posts) *and only to that one channel*
+channelid = '6'   # @bazbt3's channel id = '6' - change this to your own!
 
 # Define other global variables:
 global loginstatus    # Stores login status indicator
@@ -60,7 +60,6 @@ def menu():
     print("  r = Reply                 t =     Timeline")
     print("  blog = create BLOG post   o =     Own blurbs")
     print("                            pins =  PINS")
-    print("                            inter = INTERactions")
     print("Admin:")
     print("  Login =  Login     menu =  redisplay Menu")
     print("  Logout = Logout    sites = user's Sites")
@@ -367,20 +366,6 @@ def ownpinstimeline():
     timelinebase(response, postcount)
 
 
-# Define the 'interactionstimeline' subroutine:
-# BUGGY AS-OF v0.2.4 - SEE THE COMMENTED-OUT CODE ON THE 'url' ASSIGNMENT LINE:
-def interactionstimeline():
-    # How many hown pinned posts to retrieve?
-    postcount = input(Fore.YELLOW + Style.DIM + "How many posts? " + Style.RESET_ALL)
-    postcount = str(postcount)
-    # Uses the global header & creates the data to be passed to the url:
-    url = 'https://api.10centuries.org/content/blurbs/interactions' #?count=' + postcount
-    data = {'count': postcount}
-    response = requests.get(url, headers=headers, data=data)
-    # Pass the API response to 'timelinebase':
-    timelinebase(response, postcount)
-
-
 # DEFINE 10C ADMIN SUBROUTINES:
 
 # Define 'authorise' subroutine:
@@ -392,10 +377,24 @@ def authorise():
     # ***The text file MUST exist and contain one line, ONLY the text of the auth token,***
     # It's returned from the API at the end of the 'Login' subroutine,
     # This header contains only the token - used when only an auth header is required,
+    # First check if it exists,
+    # If it does not, ask the user to login for the first time:
+    try:
+        open("/home/pi/10cv4/authtoken.txt")
+    except IOError as e:
+        os.system('clear')
+        print("")
+        print(Fore.BLACK + Back.WHITE + "10cbazbt3:")
+        print("")
+        print(Fore.BLACK + Back.RED + "Please Login for the first time." + Style.RESET_ALL)
+        print("")
+        login()
+        tempinput = input(Fore.YELLOW + "Please press [enter] to continue" + Style.RESET_ALL)
+    # Then carry on creating the authorisation headers:
     authtokenonlyfile = open("/home/pi/10cv4/authtoken.txt", "r")
     authtokenonly = authtokenonlyfile.read()
     headertokenonly = {'Authorization': authtokenonly}
-    # Define 'headers' global variable - uses 'authtokenonly' from above,
+    # Define the 'headers' global variable using 'authtokenonly' from above,
     # This header is used throughout the application:
     headers = {'Authorization': authtokenonly, 'Content-Type': 'application/x-www-form-urlencoded'}
 
@@ -425,12 +424,12 @@ def login():
     file = open("/home/pi/10cv4/authtoken.txt", "w")
     file.write(temptoken)
     file.close()
-    # Re-authorise now:
-    authorise()
+    # Let the user know the application is authorised:
     print("")
-    print(Fore.BLACK + Back.GREEN + "Re-authorised" + Style.RESET_ALL + " (but check for a 'Connected' indicator!)")
+    print(Fore.BLACK + Back.GREEN + "Authorised" + Style.RESET_ALL + Fore.YELLOW + Style.DIM + " (but check for a 'Connected' indicator!)" + Style.RESET_ALL)
     print("")
     setloginstatus("In")
+    authorise()
 
 
 # Define the 'logout' subroutine:
@@ -551,8 +550,6 @@ while choice != 'exit':
         ownblurbtimeline()
     elif choice == 'pins':
         ownpinstimeline()
-    elif choice == 'inter':
-        interactionstimeline()
     elif choice == 'menu':
         menu()
     elif choice == 'sites':
