@@ -3,6 +3,7 @@
 
 ### 2016-03-29: [v0.2.6 (All are welcome)](https://github.com/bazbt3/10cbazbt3/commit/ae5e5a89835ff1d12e28925167b13ff321d033b6)
 * **Bug fix:** The bug that stopped the application from starting from a 'base' install is now fixed (see 0.2.5 below) - though it's not an ideal solution it'll do for now.
+* **Removed:** I've removed Interactions.  Until the other shortcomings are fixed it has limited utility without further work being undertaken to provide context.
 
 ### 2016-03-27: [v0.2.5 (Bloatware)](https://github.com/bazbt3/10cbazbt3/commit/03eda3e55b75b338a0d13bcc8157d045eeea4464)
 **Bug:**
