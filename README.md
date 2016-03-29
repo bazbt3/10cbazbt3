@@ -1,7 +1,3 @@
----
-Startup-Bug: Requires presence of valid authtoken.txt file - if deleted after successful login but before logout. See issue \#28.
----
-
 # What is '10cbazbt3'?
 A Python 3 application to interact with the social, blogging and podcasting site [10Centuries.org](http://10centuries.org).  My work here is starting to cover the basics, moving nicely.
 
