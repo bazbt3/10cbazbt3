@@ -1,0 +1,6 @@
+*** Your copy of this file *must* have only one line, ***
+*** ONLY the Client GUID - which is obtained from the *** 
+*** instructions at https://docs.10centuries.org/auth ***
+
+*** This file is in .gitignore, thus may not transfer ***
+*** when the repo is cloned.                          ***
