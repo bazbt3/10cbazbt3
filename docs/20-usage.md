@@ -3,17 +3,14 @@
 ## The Menu:
 ````
 10cbazbt3 menu:
-  b = Blurb (social post)
-  p = Post (blog post)
-  r = Reply
-  m = get Mentions
-  t = get home Timeline
-  o = get Own timeline
-  menu = redisplay Menu
+Main:
+  b = Blurb (social post)   m =     Mentions
+  r = Reply                 t =     Timeline
+  blog = create BLOG post   o =     Own blurbs
+                            pins =  PINS
 Admin:
-  sites =  Sites owned by user
-  Login =  Login
-  Logout = Logout
+  Login =  Login     menu =  redisplay Menu
+  Logout = Logout    sites = user's Sites
   exit =   Exit
 
 Connected.
@@ -35,10 +32,10 @@ Easy:
 
 ---
 
-### `p = Post (blog post)`:
+### `blog = create BLOG post)`:
 Not quite as straightforward as a Blurb:
 
-1. Type `p`, press [enter],
+1. Type `blog`, press [enter],
 1. Read the first prompt, write a blog post title, press [enter],
 1. Read the second prompt, write some text, some more text, press [enter] as many times as you like - *entry continues,*
 1. **To post your text**, ensure your cursor is on a blank line and press [ctrl-d].
@@ -58,7 +55,7 @@ Needs a post number to reply to:
 
 ---
 
-### `m = get Mentions`:
+### `m = Mentions`:
 Relatively easy to work with:
 
 1. Type `m`, press [enter]
@@ -91,7 +88,7 @@ Choice?
 
 ---
 
-### `t = get home Timeline`:
+### `t = Timeline`:
 Relatively easy to work with:
 
 1. Type `t`, press [enter]
@@ -128,7 +125,7 @@ Choice?
 
 ---
 
-### `o = get Own timeline`:
+### `o = Own Blurbs`:
 Relatively easy to work with:
 
 1. Type `o`, press [enter]
@@ -141,6 +138,18 @@ Typing [enter] advances to the next post, `r` + [enter] replies to the post abov
 
 ---
 
+### `pins = PINS`:
+Relatively easy to work with:
+
+1. Type `pins`, press [enter]
+1. Enter the number of posts you wish to display, press [enter],
+1. Read the screen.
+
+A timeline *display* is a list of posts, the oldest at the top.  Each post contains the post ID, poster data, the time posted and the post text.  Now in colour.
+
+Typing [enter] advances to the next post, `r` + [enter] replies to the post above the cursor using a slightly-modified version of the main 'reply' routine.  The application v0.2.1 onwards adds `rp` repost, `*` star and `p` pin.
+
+---
 
 ### `menu = redisplay Menu`
 The menu is displayed once when the application starts, can be invoked when not within a post display routine.
@@ -188,4 +197,4 @@ Easy.
 
 Please note there are not many helpful messages if 10cbazbt3.py gets things wrong.  I've tested the basics but it's very early days right now.
 
-There is more to follow, but for now please take a look at the **[Technical document](/docs/30-technical.md)** - it is a placeholder for now.
+There is more to follow, but for now please take a look at the **[Technical document](/docs/30-technical.md)** - whuch is a placeholder for now.
