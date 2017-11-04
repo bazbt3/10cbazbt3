@@ -1,6 +1,8 @@
+#!Python3
+
 # 10cbazbt3 - a menu to interact with the 10Centuries.org social network.
 # (c) Barrie Turner, 2016-03-04 onwards.
-# Version number: 2016-03-29: v0.2.6 (All are welcome)
+# Version number: 2017-10-04: v0.3.1 (Pythonista)
 
 # Routines based on the curl examples at https://docs.10centuries.org
 
@@ -8,9 +10,9 @@
 # Python 3 (this simply will not work in Python 2; not even the menu!)
 
 # Important:
-# Tested only on a Raspberry Pi 2 B running Raspbian Linux,
-# Created using Python 3 (IDLE).
-# All this application's data files are currently stored in '/home/pi/10cv4/',
+# Migrated to Pythonista on an iPhone 6 running iOS 11. Tested originally on a Raspberry Pi 2 B running Raspbian Linux.
+# Originally created using Python 3 (IDLE).
+# All this application's data files are currently stored in the same folder as the application.
 
 
 # SETUP:
@@ -56,14 +58,14 @@ def menu():
     # Formatting e.g.: Fore.COLOUR, Back.COLOUR, Style.DIM with e.g. DIM, RED, CYAN, etc.:
     print(Fore.BLACK + Back.WHITE + "10cbazbt3 menu:" + Style.RESET_ALL)
     print(Fore.YELLOW + Style.DIM + "Main:")
-    print("  b = Blurb (social post)   m =     Mentions")
-    print("  r = Reply                 t =     Timeline")
-    print("  blog = create BLOG post   o =     Own blurbs")
-    print("                            pins =  PINS")
+    print(" b = Blurb    m = Mentions")
+    print(" r = Reply    t = Timeline")
+    print(" blog = BLOG  o = Own blurbs")
+    print(" pins = PINS")
     print("Admin:")
-    print("  Login =  Login     menu =  redisplay Menu")
-    print("  Logout = Logout    sites = user's Sites")
-    print("  exit =   Exit")
+    print(" Login =  Login   menu = show Menu")
+    print(" Logout = Logout. sites = my Sites")
+    print(" exit =   Exit")
     print(Style.RESET_ALL)
 
 
@@ -76,7 +78,7 @@ def blurb():
     # Input some text:
     posttext = input(Fore.YELLOW + Style.DIM + "Write some text: " + Style.RESET_ALL)
     # Saves the input text to 'posttext.txt':
-    file = open("/home/pi/10cv4/posttext.txt", "w")
+    file = open("posttext.txt", "w")
     file.write(posttext)
     file.close()
     # Uses the global header & creates the data to be passed to the url:
@@ -115,7 +117,7 @@ def reply():
     # Input some text:
     posttext = input(Fore.YELLOW + Style.DIM + "Write some text (add usernames!): " + Style.RESET_ALL)
     # Saves the input text to 'posttext.txt':
-    file = open("/home/pi/10cv4/posttext.txt", "w")
+    file = open("posttext.txt", "w")
     file.write(posttext)
     file.close()
     # Uses the global header & creates the data to be passed to the url:
@@ -138,7 +140,7 @@ def replyinline(postidreply, poster):
     # Add '@', username to posttext:
     posttext = ("@" + replytoposter + " " + posttext)
     # Saves the input text to 'posttext.txt':
-    file = open("/home/pi/10cv4/posttext.txt", "w")
+    file = open("posttext.txt", "w")
     file.write(posttext)
     file.close()
     # Uses the global header & creates the data to be passed to the url:
@@ -205,7 +207,7 @@ def bazrepostinline(postidrepost, poster, posttext):
     # Use the text from the post to be resposted:
     repostposttext = ("RP @" + repostuser + ": " + posttext)
     # Saves the input text to 'posttext.txt':
-    file = open("/home/pi/10cv4/posttext.txt", "w")
+    file = open("posttext.txt", "w")
     file.write(repostposttext)
     file.close()
     # Uses the global header & creates the data to be passed to the url:
@@ -245,12 +247,12 @@ def timelinebase(passedresponse, passedpostcount):
     response = passedresponse
     postcount = passedpostcount
     # Saves the server's response to 'serverresponse.txt':
-    file = open("/home/pi/10cv4/servermentionsresponse.txt", "w")
+    file = open("servermentionsresponse.txt", "w")
     file.write(response.text)
     file.close()
     # Displays the server's response, followed by some useful output.
     # Open the 'servermentionsresponse.txt' file and store contents in json_data:
-    json_data = open("/home/pi/10cv4/servermentionsresponse.txt", "r")
+    json_data = open("servermentionsresponse.txt", "r")
     # Main routine to decode the data:
     # Adapted from Python 2.x stuff at http://xmodulo.com/how-to-parse-json-string-in-python.html:
     # Main decode routine within an exception handler:
@@ -380,7 +382,7 @@ def authorise():
     # First check if it exists,
     # If it does not, ask the user to login for the first time:
     try:
-        open("/home/pi/10cv4/authtoken.txt")
+        open("authtoken.txt")
     except IOError as e:
         os.system('clear')
         print("")
@@ -391,7 +393,7 @@ def authorise():
         login()
         tempinput = input(Fore.YELLOW + "Please press [enter] to continue" + Style.RESET_ALL)
     # Then carry on creating the authorisation headers:
-    authtokenonlyfile = open("/home/pi/10cv4/authtoken.txt", "r")
+    authtokenonlyfile = open("authtoken.txt", "r")
     authtokenonly = authtokenonlyfile.read()
     headertokenonly = {'Authorization': authtokenonly}
     # Define the 'headers' global variable using 'authtokenonly' from above,
@@ -413,15 +415,15 @@ def login():
     data = {'client_guid': my_client_guid, 'acctname': my_acctname, 'acctpass': my_acctpass}
     response = requests.post(url, headers=loginheaders, data=data)
     # Saves the server's JSON response to 'loginresponse.txt':
-    file = open("/home/pi/10cv4/loginresponse.txt", "w")
+    file = open("loginresponse.txt", "w")
     file.write(response.text)
     file.close()
     # Extracts the auth token from the JSON file:
-    json_data = open("/home/pi/10cv4/loginresponse.txt", "r")
+    json_data = open("loginresponse.txt", "r")
     decoded = json.load(json_data)
     temptoken = decoded['data']['token']
     # Saves just the auth token to authtoken.txt:
-    file = open("/home/pi/10cv4/authtoken.txt", "w")
+    file = open("authtoken.txt", "w")
     file.write(temptoken)
     file.close()
     # Let the user know the application is authorised:
@@ -438,7 +440,7 @@ def logout():
     url = 'https://api.10centuries.org/auth/logout'
     response = requests.post(url, headers=headertokenonly)
     # Saves the server's response to 'logoutresponse.txt':
-    file = open("/home/pi/10cv4/logoutresponse.txt", "w")
+    file = open("logoutresponse.txt", "w")
     file.write(response.text)
     file.close()
     # Indicate that the user is logged out:
@@ -453,7 +455,7 @@ def sites():
     url = 'https://api.10centuries.org/users/sites'
     response = requests.get(url, headers=headertokenonly)
     # Saves the server's response to 'serverresponse.txt':
-    file = open("/home/pi/10cv4/serverresponse.txt", "w")
+    file = open("serverresponse.txt", "w")
     file.write(response.text)
     file.close()
     # Displays the server's response onscreen - *all* of it:
@@ -468,7 +470,7 @@ def sites():
 
 # Define 'setloginstatus' subroutine:
 def setloginstatus(loginstatus):
-    file = open("/home/pi/10cv4/loginstatus.txt", "w")
+    file = open("loginstatus.txt", "w")
     file.write(loginstatus)
     file.close()
 
@@ -476,7 +478,7 @@ def setloginstatus(loginstatus):
 # Define 'checkloginstatusfile' subroutine:
 def checkloginstatusfile():
     try:
-        open("/home/pi/10cv4/loginstatus.txt")
+        open("loginstatus.txt")
     except IOError as e:
         print(Fore.BLACK + Back.RED + "Please Login." + Style.RESET_ALL)
         setloginstatus("Out")
@@ -485,7 +487,7 @@ def checkloginstatusfile():
 #Define 'checkloginstatus' subroutine:
 def checkloginstatus():
     checkloginstatusfile()
-    loginstatusfile = open("/home/pi/10cv4/loginstatus.txt", "r")
+    loginstatusfile = open("loginstatus.txt", "r")
     loginstatus = loginstatusfile.read()
     if loginstatus == "Out":
         print(Fore.BLACK + Back.RED + "Please Login." + Style.RESET_ALL)
@@ -518,7 +520,7 @@ def gettime():
 # ***The text file MUST exist and contain one line - ONLY the text of the Client Key,***
 # It's obtained from your Admin page's https://admin.10centuries.org/apps/
 # And must be added by hand!
-myclientguidfile = open("/home/pi/10cv4/10cv4guid.txt", "r")
+myclientguidfile = open("10cv4guid.txt", "r")
 my_client_guid = myclientguidfile.read()
 # Use the Authentication Token in the 'authorise' subroutine:
 authorise()

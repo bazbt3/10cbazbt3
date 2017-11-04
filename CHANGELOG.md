@@ -1,6 +1,19 @@
 # CHANGELOG
 (Most recent on top.)
 
+### 2016-03-29: v0.3.1 (Clean break)
+**News:** Started migrating to iOS Pythonista. Working: login, logout, exit, blurb and reply (but not yet blog post.) Everything else fails, see bugs below. For previous Raspberry Pi and Linux-targeted versions see v0.2.6 and earlier.
+* Added: `#!Python3.5` shebang only to allow the app to work within my default Python 2.7 environment.
+* Added: Bugs:
+ * **Bug:** JSON format error *everywhere* when querying preexisting server posts.
+ * **Bug:** Colorama inserts visible characters instead of coloured text when run in Pythonista's console.
+ * **Bug:** Running within the Python 2 StaSh console brings colour but exits to the command line, unable to execute commands beyond login, logout and menu display.
+* Changed: Reduced menu display footprint to fit a tiny iPhone screen.
+* Deprecated: No longer uses the `/home/pi/10cv4/` folder; app creates and queries files in the same folder as itself.
+* Removed: -
+* Fixed: -
+* Security: -
+
 ### 2016-03-29: [v0.2.6 (All are welcome)](https://github.com/bazbt3/10cbazbt3/commit/ae5e5a89835ff1d12e28925167b13ff321d033b6)
 * **Bug fix:** The bug that stopped the application from starting from a 'base' install is now fixed (see 0.2.5 below) - though it's not an ideal solution it'll do for now.
 * **Removed:** I've removed Interactions.  Until the other shortcomings are fixed it has limited utility without further work being undertaken to provide context.
